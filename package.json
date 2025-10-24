@@ -1,0 +1,22 @@
+{
+  "name": "bulletinboardapp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DariuszOkonski/bulletin-board-app.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DariuszOkonski/bulletin-board-app/issues"
+  },
+  "homepage": "https://github.com/DariuszOkonski/bulletin-board-app#readme",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
