@@ -1,5 +1,27 @@
-const getAll = (req, res) => {
-  res.json({ message: 'get all ads' });
+const { Ad, User } = require('../../models');
+
+const getAll = async (req, res) => {
+  try {
+    // Add debugging
+    console.log('Available models:', Object.keys(require('mongoose').models));
+
+    const ads = await Ad.find().populate({
+      path: 'user',
+      model: 'User', // Explicitly specify the model
+    });
+
+    return res.json({
+      success: true,
+      count: ads.length,
+      data: ads,
+    });
+  } catch (error) {
+    console.error('Detailed error:', error);
+    return res.status(500).json({
+      err: error.message,
+      stack: process.env.NODE_ENV === 'development' ? error.stack : undefined,
+    });
+  }
 };
 
 const getById = (req, res) => {
