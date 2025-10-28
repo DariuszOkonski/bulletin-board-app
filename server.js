@@ -4,11 +4,15 @@
 const express = require('express');
 const cors = require('cors');
 
+const AdsRoutes = require('./routes/ads/ads.routes');
+
 const app = express();
 
 // Middleware
 app.use(cors());
 app.use(express.json());
+
+app.use('/api/v1/ads', AdsRoutes);
 
 // 404 handler
 app.use((req, res) => {
