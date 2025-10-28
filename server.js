@@ -5,6 +5,7 @@ const express = require('express');
 const cors = require('cors');
 
 const AdsRoutes = require('./routes/ads/ads.routes');
+const UsersRoutes = require('./routes/users/users.routes');
 
 const app = express();
 
@@ -13,6 +14,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/api/v1/ads', AdsRoutes);
+app.use('/api/v1/users', UsersRoutes);
 
 // 404 handler
 app.use((req, res) => {

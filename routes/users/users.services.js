@@ -1,17 +1,17 @@
 const getAll = (req, res) => {
-  res.json({ message: 'get all ads' });
+  res.json({ message: 'get all users' });
 };
 
 const getById = (req, res) => {
-  res.json({ message: 'get ad by id' });
+  res.json({ message: 'get user by id' });
 };
 
 const create = (req, res) => {
-  res.status(201).json({ message: 'created ad' });
+  res.status(201).json({ message: 'created user' });
 };
 
 const updateById = (req, res) => {
-  res.json({ message: 'updated ad' });
+  res.json({ message: 'updated user' });
 };
 
 const deleteById = (req, res) => {
