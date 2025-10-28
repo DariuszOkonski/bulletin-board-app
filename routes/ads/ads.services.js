@@ -1,4 +1,5 @@
 const { Ad, User } = require('../../models');
+const { handleError } = require('../../utils/error-handler');
 
 const getAll = async (req, res) => {
   try {
@@ -13,9 +14,7 @@ const getAll = async (req, res) => {
       data: ads,
     });
   } catch (error) {
-    return res.status(500).json({
-      err: error.message,
-    });
+    return handleError(error, res);
   }
 };
 
