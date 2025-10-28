@@ -1,29 +1,26 @@
 const express = require('express');
+const {
+  getAll,
+  getById,
+  create,
+  updateById,
+  deleteById,
+} = require('./ads.services');
 const router = express.Router();
 
 // Get all ads
-router.get('/', (req, res) => {
-  res.json({ message: 'get all' });
-});
+router.get('/', getAll);
 
 // Get single ad by id
-router.get('/:id', (req, res) => {
-  res.json({ message: 'get by id' });
-});
+router.get('/:id', getById);
 
 // Create new ad
-router.post('/', (req, res) => {
-  res.status(201).json({ message: 'created' });
-});
+router.post('/', create);
 
 // Update ad
-router.put('/:id', (req, res) => {
-  res.json({ message: 'updated' });
-});
+router.put('/:id', updateById);
 
 // Delete ad
-router.delete('/:id', (req, res) => {
-  res.status(204).send();
-});
+router.delete('/:id', deleteById);
 
 module.exports = router;
