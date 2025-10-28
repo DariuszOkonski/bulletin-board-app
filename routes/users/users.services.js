@@ -1,5 +1,19 @@
-const getAll = (req, res) => {
-  res.json({ message: 'get all users' });
+const { Ad, User } = require('../../models');
+
+const getAll = async (req, res) => {
+  try {
+    const users = await User.find();
+
+    res.json({
+      success: true,
+      count: users.length,
+      data: users,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      err: error.message,
+    });
+  }
 };
 
 const getById = (req, res) => {
