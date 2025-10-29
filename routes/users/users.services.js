@@ -1,6 +1,7 @@
 const { Ad, User } = require('../../models');
 const { handleError, AppError } = require('../../utils/error-handler');
 const { validateObjectId } = require('../../utils/validate-id');
+const bcrypt = require('bcrypt');
 
 const getAll = async (req, res) => {
   try {
@@ -38,8 +39,56 @@ const getById = async (req, res) => {
   }
 };
 
-const create = (req, res) => {
-  res.status(201).json({ message: 'created user' });
+const create = async (req, res) => {
+  try {
+    const { login, password, avatar, phone, location } = req.body || {};
+
+    // Validate required fields
+    const missing = [];
+    if (!login) missing.push('login');
+    if (!password) missing.push('password');
+    if (!avatar) missing.push('avatar');
+    if (!phone) missing.push('phone');
+    if (!location) missing.push('location');
+
+    if (missing.length) {
+      throw new AppError(
+        `Missing required field(s): ${missing.join(', ')}`,
+        'MISSING_FIELDS',
+        400,
+        { missing }
+      );
+    }
+
+    // Check if user already exists (by login)
+    const existing = await User.findOne({ login }).lean().exec();
+    if (existing) {
+      throw new AppError(
+        'User with this login already exists',
+        'USER_EXISTS',
+        409
+      );
+    }
+
+    // Hash password
+    const hashed = await bcrypt.hash(password, 10);
+
+    // Create and save user
+    const created = await User.create({
+      login,
+      password: hashed,
+      avatar,
+      phone,
+      location,
+    });
+
+    // Ensure password is not sent back (schema transform also strips it)
+    const userToReturn = created.toJSON ? created.toJSON() : created;
+
+    return res.status(201).json({ success: true, data: userToReturn });
+  } catch (error) {
+    return handleError(error, res, error.statusCode);
+  }
 };
 
 const updateById = (req, res) => {
