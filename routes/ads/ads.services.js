@@ -4,14 +4,41 @@ const { validateObjectId } = require('../../utils/validate-id');
 
 const getAll = async (req, res) => {
   try {
-    const ads = await Ad.find().populate({
-      path: 'user',
-      model: 'User', // Explicitly specify the model
-    });
+    // Pagination & sorting
+    const page = parseInt(req.query.page, 10) || 1;
+    const limit = parseInt(req.query.limit, 10) || 10;
+    const sort = req.query.sort || '-publicationDate';
+    const skip = (page - 1) * limit;
+
+    // Build filter from query params (supports partial, case-insensitive match)
+    const { title } = req.query;
+    const filter = {};
+    if (title) {
+      filter.title = { $regex: title, $options: 'i' };
+    }
+
+    // Execute query and count in parallel
+    const [ads, total] = await Promise.all([
+      Ad.find(filter)
+        .populate({ path: 'user', select: '-password' })
+        .sort(sort)
+        .skip(skip)
+        .limit(limit)
+        .exec(),
+      Ad.countDocuments(filter),
+    ]);
+
+    const totalPages = Math.ceil(total / limit);
 
     return res.json({
       success: true,
       count: ads.length,
+      pagination: {
+        currentPage: page,
+        totalPages,
+        totalItems: total,
+        itemsPerPage: limit,
+      },
       data: ads,
     });
   } catch (error) {
