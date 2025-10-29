@@ -39,10 +39,14 @@
 ### strona główna:
 
 - wyświetlane tytuły ogłoszeń w kolejności chronologicznej (tytuł, zdjęcie i lokalizacja)
+  public GET 127.0.0.1:3000/api/v1/ads
+
 - możliwość przejścia do strony z danego ogłoszenia ze szczegółami
 - dodać link do strony pojedyńczego ogłoszenia
-- nad ogłoszeniami, dodać formularz do wyszukiwania ogłoszeń, po wpisaniu frazy i wciśnięciu Search
-  przekierowanie do podstrony z wynikami wyszukiwania
+  public GET 127.0.0.1:3000/api/v1/ads/69006395ad8f556f8ae2719e
+
+- nad ogłoszeniami, dodać formularz do wyszukiwania ogłoszeń, po wpisaniu frazy i wciśnięciu Search przekierowanie do podstrony z wynikami wyszukiwania
+
 - informacje wyszukiwania przekazać w adresie strony jako search/:searchPhrase
 - po wciśnięciu search mamy być przekierowani do podstrony z wyszukanymi ogłoszeniami i przedstawić
   je w formie skróconej jako tytuł, zdjęcie, lokalizacja, cena
