@@ -10,6 +10,32 @@ const UserSchema = new Schema(
   },
   {
     timestamps: true,
+    toJSON: {
+      virtuals: true,
+      transform(doc, ret) {
+        // remove sensitive/internal fields
+        delete ret.password;
+        delete ret.__v;
+        // keep id instead of _id
+        if (ret._id) {
+          ret.id = ret._id;
+          delete ret._id;
+        }
+        return ret;
+      },
+    },
+    toObject: {
+      virtuals: true,
+      transform(doc, ret) {
+        delete ret.password;
+        delete ret.__v;
+        if (ret._id) {
+          ret.id = ret._id;
+          delete ret._id;
+        }
+        return ret;
+      },
+    },
   }
 );
 

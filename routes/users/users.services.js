@@ -4,7 +4,8 @@ const { validateObjectId } = require('../../utils/validate-id');
 
 const getAll = async (req, res) => {
   try {
-    const users = await User.find();
+    // Exclude password field as an extra safeguard (schema transform also strips it)
+    const users = await User.find().select('-password');
 
     res.json({
       success: true,
@@ -22,7 +23,7 @@ const getById = async (req, res) => {
 
     validateObjectId(id, 'User');
 
-    const user = await User.findById(id);
+    const user = await User.findById(id).select('-password');
 
     if (!user) {
       throw new AppError('User not found', 'USER_NOT_FOUND', 404);
