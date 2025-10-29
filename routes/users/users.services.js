@@ -11,7 +11,7 @@ const getAll = async (req, res) => {
       data: users,
     });
   } catch (error) {
-    return handleError(error, res);
+    return handleError(error, res, error.statusCode);
   }
 };
 

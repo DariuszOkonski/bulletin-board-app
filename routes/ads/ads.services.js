@@ -1,5 +1,6 @@
 const { Ad, User } = require('../../models');
-const { handleError } = require('../../utils/error-handler');
+const { handleError, AppError } = require('../../utils/error-handler');
+const { validateObjectId } = require('../../utils/validate-id');
 
 const getAll = async (req, res) => {
   try {
@@ -18,20 +19,81 @@ const getAll = async (req, res) => {
   }
 };
 
-const getById = (req, res) => {
-  res.json({ message: 'get ad by id' });
+const getById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Validate ID format
+    validateObjectId(id, 'Ad');
+
+    // Find the ad
+    const ad = await Ad.findById(id).populate({
+      path: 'user',
+      select: '-password', // Exclude password from user data
+    });
+
+    if (!ad) {
+      throw new AppError('Advertisement not found', 'AD_NOT_FOUND', 404);
+    }
+
+    return res.json({
+      success: true,
+      data: ad,
+    });
+  } catch (error) {
+    return handleError(error, res, error.statusCode);
+  }
 };
 
 const create = (req, res) => {
   res.status(201).json({ message: 'created ad' });
 };
 
-const updateById = (req, res) => {
-  res.json({ message: 'updated ad' });
+const updateById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Validate ID format
+    validateObjectId(id, 'Ad');
+
+    const ad = await Ad.findByIdAndUpdate(id, req.body, {
+      new: true,
+      runValidators: true,
+    }).populate({
+      path: 'user',
+      select: '-password',
+    });
+
+    if (!ad) {
+      throw new AppError('Advertisement not found', 'AD_NOT_FOUND', 404);
+    }
+
+    return res.json({
+      success: true,
+      data: ad,
+    });
+  } catch (error) {
+    return handleError(error, res, error.statusCode);
+  }
 };
 
-const deleteById = (req, res) => {
-  res.status(204).send();
+const deleteById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Validate ID format
+    validateObjectId(id, 'Ad');
+
+    const ad = await Ad.findByIdAndDelete(id);
+
+    if (!ad) {
+      throw new AppError('Advertisement not found', 'AD_NOT_FOUND', 404);
+    }
+
+    return res.status(204).send();
+  } catch (error) {
+    return handleError(error, res, error.statusCode);
+  }
 };
 
 module.exports = {
