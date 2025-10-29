@@ -81,6 +81,7 @@
 ### podstrona logowania
 
 - ma pozwalać na logowanie użytkownika i rozpoczęcie sesji
+  public GET 127.0.0.1:3000/api/v1/users/login
 
 ### nawigacja
 
@@ -95,22 +96,22 @@
 
 ### ogłoszenia
 
-| Method | Name               | Access  | endpoint                         |
-| ------ | ------------------ | ------- | -------------------------------- |
-| GET    | getAll             | public  | /api/v1/ads                      |
-| GET    | getById            | public  | /api/v1/ads/:id                  |
-| GET    | searchByPhrase     | public  | /api/v1/ads/search/:searchPhrase |
-| POST   | createAdvertisment | private | /api/v1/ads                      |
-| DELETE | deleteById         | private | /api/v1/ads/:id                  |
-| PUT    | updateById         | private | /api/v1/ads/:id                  |
+| Method | Name               | Access  | endpoint                  |
+| ------ | ------------------ | ------- | ------------------------- |
+| GET    | getAll             | public  | /api/v1/ads               |
+| GET    | getAll search      | public  | /api/v1/ads?search=Poland |
+| GET    | getById            | public  | /api/v1/ads/:id           |
+| POST   | createAdvertisment | private | /api/v1/ads               |
+| DELETE | deleteById         | private | /api/v1/ads/:id           |
+| PUT    | updateById         | private | /api/v1/ads/:id           |
 
 ### użytkownicy
 
 | Method | Name       | Access | endpoint              |
 | ------ | ---------- | ------ | --------------------- |
+| GET    | getUser    | public | /api/v1/auth/user     |
 | POST   | createUser | public | /api/v1/auth/register |
 | POST   | login      | public | /api/v1/auth/login    |
-| GET    | getUser    | public | /api/v1/auth/user     |
 
 # SUPPORT
 
