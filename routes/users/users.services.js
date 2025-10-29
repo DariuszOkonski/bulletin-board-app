@@ -148,8 +148,33 @@ const updateById = async (req, res) => {
   }
 };
 
-const deleteById = (req, res) => {
-  res.status(204).send();
+const deleteById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Validate ID format
+    validateObjectId(id, 'User');
+
+    // Check if user exists
+    const user = await User.findById(id);
+    if (!user) {
+      throw new AppError('User not found', 'USER_NOT_FOUND', 404);
+    }
+
+    // Remove all ads related to the user
+    const deleteResult = await Ad.deleteMany({ user: user._id });
+
+    // After ads are removed, delete the user
+    await User.findByIdAndDelete(id);
+
+    return res.status(200).json({
+      success: true,
+      message: 'User and related ads deleted',
+      deletedAds: deleteResult.deletedCount || 0,
+    });
+  } catch (error) {
+    return handleError(error, res, error.statusCode);
+  }
 };
 
 module.exports = {
