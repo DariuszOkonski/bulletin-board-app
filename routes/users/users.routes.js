@@ -5,9 +5,12 @@ const {
   create,
   updateById,
   deleteById,
+  login,
 } = require('./users.services');
 
 const router = express.Router();
+
+router.get('/login', login);
 
 router.get('/', getAll);
 
