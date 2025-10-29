@@ -150,23 +150,65 @@ const updateById = async (req, res) => {
     // Validate ID format
     validateObjectId(id, 'Ad');
 
-    const ad = await Ad.findByIdAndUpdate(id, req.body, {
-      new: true,
-      runValidators: true,
-    }).populate({
-      path: 'user',
-      select: '-password',
-    });
-
+    // Find existing ad
+    const ad = await Ad.findById(id);
     if (!ad) {
       throw new AppError('Advertisement not found', 'AD_NOT_FOUND', 404);
     }
 
-    return res.json({
-      success: true,
-      data: ad,
+    // Do not allow changing the owner
+    if (req.body && Object.prototype.hasOwnProperty.call(req.body, 'user')) {
+      // If user field is present in body and differs from current owner, reject
+      const attempted = req.body.user;
+      if (attempted && attempted.toString() !== ad.user.toString()) {
+        throw new AppError(
+          'Cannot change advertisement owner',
+          'CANNOT_CHANGE_OWNER',
+          403
+        );
+      }
+      // Otherwise delete it to avoid accidental overwrite
+      delete req.body.user;
+    }
+
+    // Apply allowed updates
+    const allowed = ['title', 'content', 'picture', 'price'];
+    allowed.forEach((field) => {
+      if (Object.prototype.hasOwnProperty.call(req.body, field)) {
+        ad[field] = req.body[field];
+      }
     });
+
+    // Save changes (will run schema validators)
+    const saved = await ad.save();
+
+    // Populate user before returning
+    await saved.populate({ path: 'user', select: '-password' });
+
+    return res.json({ success: true, data: saved });
   } catch (error) {
+    // Handle mongoose validation errors
+    if (error && error.name === 'ValidationError') {
+      const details = Object.keys(error.errors || {}).map((k) => ({
+        field: k,
+        message: error.errors[k].message,
+      }));
+      return handleError(
+        new AppError('Validation failed', 'VALIDATION_ERROR', 400, { details }),
+        res,
+        400
+      );
+    }
+    if (error && error.code === 11000) {
+      return handleError(
+        new AppError('Duplicate key error', 'DUPLICATE_KEY', 409, {
+          key: error.keyValue,
+        }),
+        res,
+        409
+      );
+    }
+
     return handleError(error, res, error.statusCode);
   }
 };
