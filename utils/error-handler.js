@@ -4,7 +4,7 @@
  * @param {Response} res - Express response object
  * @param {number} statusCode - HTTP status code (defaults to 500)
  */
-const handleError = (error, res, statusCode = 500) => {
+const handleError = (error, res, statusCode = 500, details = {}) => {
   console.error('[Error]:', error);
 
   return res.status(statusCode).json({
@@ -16,6 +16,7 @@ const handleError = (error, res, statusCode = 500) => {
         stack: error.stack,
         details: error.details || undefined,
       }),
+      details,
     },
   });
 };

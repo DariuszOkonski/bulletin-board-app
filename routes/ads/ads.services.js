@@ -45,8 +45,102 @@ const getById = async (req, res) => {
   }
 };
 
-const create = (req, res) => {
-  res.status(201).json({ message: 'created ad' });
+const create = async (req, res) => {
+  try {
+    const { title, content, picture, price, user } = req.body || {};
+
+    // Check required fields
+    const missing = [];
+    if (!title) missing.push('title');
+    if (!content) missing.push('content');
+    if (!picture) missing.push('picture');
+    if (price === undefined || price === null) missing.push('price');
+    if (!user) missing.push('user');
+
+    if (missing.length) {
+      throw new AppError(
+        `Missing required field(s): ${missing.join(', ')}`,
+        'MISSING_FIELDS',
+        400,
+        { missing }
+      );
+    }
+
+    // Basic value validation (mirror Ad schema rules)
+    const fieldErrors = [];
+    if (typeof title !== 'string' || title.length < 10 || title.length > 50) {
+      fieldErrors.push('title must be a string (10-50 chars)');
+    }
+    if (
+      typeof content !== 'string' ||
+      content.length < 20 ||
+      content.length > 1000
+    ) {
+      fieldErrors.push('content must be a string (20-1000 chars)');
+    }
+    const priceNumber = parseFloat(price);
+    if (Number.isNaN(priceNumber) || !Number.isFinite(priceNumber)) {
+      fieldErrors.push('price must be a valid number');
+    }
+    if (typeof picture !== 'string') {
+      fieldErrors.push('picture must be a string (url/path)');
+    }
+
+    if (fieldErrors.length) {
+      throw new AppError(
+        'Invalid field values',
+        'VALIDATION_ERROR',
+        400,
+        fieldErrors
+      );
+    }
+
+    // Validate user id format and existence
+    validateObjectId(user, 'User');
+    const userExists = await User.findById(user).lean().exec();
+    if (!userExists) {
+      throw new AppError('User not found', 'USER_NOT_FOUND', 404);
+    }
+
+    // Create ad
+    const ad = await Ad.create({
+      title,
+      content,
+      picture,
+      price: priceNumber,
+      user,
+    });
+
+    // Populate user (without password)
+    await ad.populate({ path: 'user', select: '-password' });
+
+    return res.status(201).json({ success: true, data: ad });
+  } catch (error) {
+    // Map mongoose validation errors
+    if (error && error.name === 'ValidationError') {
+      const details = Object.keys(error.errors || {}).map((k) => ({
+        field: k,
+        message: error.errors[k].message,
+      }));
+      return handleError(
+        new AppError('Validation failed', 'VALIDATION_ERROR', 400, { details }),
+        res,
+        400
+      );
+    }
+    // Duplicate key (if any unique constraints)
+    if (error && error.code === 11000) {
+      return handleError(
+        new AppError('Duplicate key error', 'DUPLICATE_KEY', 409, {
+          key: error.keyValue,
+        }),
+        res,
+        409
+      );
+    }
+
+    return handleError(error, res, error.statusCode, error.details);
+  }
 };
 
 const updateById = async (req, res) => {

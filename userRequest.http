@@ -1,0 +1,18 @@
+### get all users
+
+GET http://localhost:3000/api/v1/users
+
+### get by id
+GET http://localhost:3000/api/v1/users/69006395ad8f556f8ae2719c
+
+### create user
+POST http://localhost:3000/api/v1/users
+Content-Type: application/json
+
+{
+    "login": "Jarod37BBB",
+    "password": "password123",
+    "avatar": "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/449.jpg",
+    "phone": "+48 572 351 880",
+    "location": "Gliwice, POLAND"
+}
