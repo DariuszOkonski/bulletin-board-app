@@ -46,8 +46,9 @@
   public GET 127.0.0.1:3000/api/v1/ads/69006395ad8f556f8ae2719e
 
 - nad ogłoszeniami, dodać formularz do wyszukiwania ogłoszeń, po wpisaniu frazy i wciśnięciu Search przekierowanie do podstrony z wynikami wyszukiwania
-
 - informacje wyszukiwania przekazać w adresie strony jako search/:searchPhrase
+  public GET 127.0.0.1:3000/api/v1/ads?search=Hello
+
 - po wciśnięciu search mamy być przekierowani do podstrony z wyszukanymi ogłoszeniami i przedstawić
   je w formie skróconej jako tytuł, zdjęcie, lokalizacja, cena
 
