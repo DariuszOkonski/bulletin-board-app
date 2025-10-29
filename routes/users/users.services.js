@@ -1,5 +1,6 @@
 const { Ad, User } = require('../../models');
-const { handleError } = require('../../utils/error-handler');
+const { handleError, AppError } = require('../../utils/error-handler');
+const { validateObjectId } = require('../../utils/validate-id');
 
 const getAll = async (req, res) => {
   try {
@@ -11,12 +12,29 @@ const getAll = async (req, res) => {
       data: users,
     });
   } catch (error) {
-    return handleError(error, res, error.statusCode);
+    return handleError(error, res);
   }
 };
 
-const getById = (req, res) => {
-  res.json({ message: 'get user by id' });
+const getById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    validateObjectId(id, 'User');
+
+    const user = await User.findById(id);
+
+    if (!user) {
+      throw new AppError('User not found', 'USER_NOT_FOUND', 404);
+    }
+
+    return res.json({
+      success: true,
+      data: user,
+    });
+  } catch (error) {
+    return handleError(error, res, error.statusCode);
+  }
 };
 
 const create = (req, res) => {
