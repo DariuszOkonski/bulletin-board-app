@@ -47,17 +47,21 @@
 
 - nad ogłoszeniami, dodać formularz do wyszukiwania ogłoszeń, po wpisaniu frazy i wciśnięciu Search przekierowanie do podstrony z wynikami wyszukiwania
 - informacje wyszukiwania przekazać w adresie strony jako search/:searchPhrase
-  public GET 127.0.0.1:3000/api/v1/ads?search=Hello
-
 - po wciśnięciu search mamy być przekierowani do podstrony z wyszukanymi ogłoszeniami i przedstawić
   je w formie skróconej jako tytuł, zdjęcie, lokalizacja, cena
+  public GET 127.0.0.1:3000/api/v1/ads?search=Hello
 
 ### podstrona pojedyńczego ogłoszenia
 
 - wyświetlać tytuł, zdjęcia, lokalizację, opis, data publikacji
 - zestaw informacji o sprzedającym: login, avatar, numer telefonu
+  public GET 127.0.0.1:3000/api/v1/ads/69006395ad8f556f8ae2719e
+
 - jeśli użytkownik jest zalogowany i wejdzie na podstronę postu należącego do niego to powinien
   mieć dostęp do buttonów edit i delete
+  private PUT 127.0.0.1:3000/api/v1/ads/69006395ad8f556f8ae2719e
+  private DELETE 127.0.0.1:3000/api/v1/ads/69006395ad8f556f8ae2719e
+
 - Edit, powinien przekierować do podstrony edycji tego postu, formularz ma mieć wypełnione pola
 - Delete, powinien usunąć takie ogłoszenie i przekierować użytkownika na stronę główną
 
@@ -66,10 +70,13 @@
 - ma być wręcz identyczna z podstroną edycji ogłoszenia tylko bez wypełnionych pól
 - do obu podstron mogą mieć dostęp tylko zalogowani użytkownicy
 - aby edytować lub usuwać ogłoszenie musimy być nie tylko zalogowani ale ogłoszenie musi należeć do nas
+  private POST 127.0.0.1:3000/api/v1/ads/
+  private PUT 127.0.0.1:3000/api/v1/ads/69006395ad8f556f8ae2719e
 
 ### podstrona rejestracji
 
 - ma pozwalać na rejestrację użytkownika
+  public POST 127.0.0.1:3000/api/v1/users
 
 ### podstrona logowania
 
