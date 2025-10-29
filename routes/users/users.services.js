@@ -91,8 +91,61 @@ const create = async (req, res) => {
   }
 };
 
-const updateById = (req, res) => {
-  res.json({ message: 'updated user' });
+const updateById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Validate ID format
+    validateObjectId(id, 'User');
+
+    // Find existing user
+    const user = await User.findById(id);
+    if (!user) {
+      throw new AppError('User not found', 'USER_NOT_FOUND', 404);
+    }
+
+    const { login, password, avatar, phone, location } = req.body || {};
+
+    // If login is changing, ensure uniqueness
+    if (login && login !== user.login) {
+      const existing = await User.findOne({ login }).lean().exec();
+      if (existing && existing._id.toString() !== id) {
+        throw new AppError(
+          'User with this login already exists',
+          'USER_EXISTS',
+          409
+        );
+      }
+      user.login = login;
+    }
+
+    // If password provided, hash it before saving
+    if (password) {
+      const hashed = await bcrypt.hash(password, 10);
+      user.password = hashed;
+    }
+
+    if (avatar !== undefined) user.avatar = avatar;
+    if (phone !== undefined) user.phone = phone;
+    if (location !== undefined) user.location = location;
+
+    // Save changes (will run validators)
+    const saved = await user.save();
+
+    const userToReturn = saved.toJSON ? saved.toJSON() : saved;
+
+    return res.json({ success: true, data: userToReturn });
+  } catch (error) {
+    // Handle cast errors separately
+    if (error.name === 'CastError') {
+      return handleError(
+        new AppError('Invalid user ID format', 'INVALID_ID', 400),
+        res,
+        400
+      );
+    }
+    return handleError(error, res, error.statusCode);
+  }
 };
 
 const deleteById = (req, res) => {
