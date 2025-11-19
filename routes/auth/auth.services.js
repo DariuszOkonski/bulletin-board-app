@@ -106,7 +106,12 @@ const login = async (req, res) => {
       throw new AppError('Invalid credentials', 'INVALID_CREDENTIALS', 401);
     }
 
-    return res.json({ success: true });
+    return res.json({
+      success: true,
+      data: {
+        message: 'User logged in',
+      },
+    });
   } catch (error) {
     return handleError(error, res, error.statusCode);
   }
