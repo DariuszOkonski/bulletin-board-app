@@ -5,6 +5,7 @@ const { connectWithRetry } = require('./db/mongoose');
 
 const AdsRoutes = require('./routes/ads/ads.routes');
 const UsersRoutes = require('./routes/users/users.routes');
+const AuthRoutes = require('./routes/auth/auth.routes');
 
 const app = express();
 
@@ -20,6 +21,7 @@ const start = async () => {
 
     app.use('/api/v1/ads', AdsRoutes);
     app.use('/api/v1/users', UsersRoutes);
+    app.use('/api/v1/auth', AuthRoutes);
 
     // 404 handler
     app.use((req, res) => {
