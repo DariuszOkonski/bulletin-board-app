@@ -76,7 +76,44 @@ const createUser = async (req, res) => {
   }
 };
 
+const login = async (req, res) => {
+  try {
+    const { login, password } = req.body || {};
+
+    // Validate required fields
+    const missing = [];
+    if (!login) missing.push('login');
+    if (!password) missing.push('password');
+
+    if (missing.length) {
+      throw new AppError(
+        `Missing required field(s): ${missing.join(', ')}`,
+        'MISSING_FIELDS',
+        400,
+        { missing }
+      );
+    }
+
+    // Find user by login
+    const user = await User.findOne({ login }).exec();
+    if (!user) {
+      throw new AppError('User not found', 'USER_NOT_FOUND', 404);
+    }
+
+    // Verify password
+    const match = await bcrypt.compare(password, user.password);
+    if (!match) {
+      throw new AppError('Invalid credentials', 'INVALID_CREDENTIALS', 401);
+    }
+
+    return res.json({ success: true });
+  } catch (error) {
+    return handleError(error, res, error.statusCode);
+  }
+};
+
 module.exports = {
   getUser,
   createUser,
+  login,
 };

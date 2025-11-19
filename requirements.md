@@ -111,7 +111,7 @@
 | ------ | ---------- | ------ | --------------------- |
 | GET    | getUser    | public | /api/v1/auth/user     |
 | POST   | createUser | public | /api/v1/auth/register |
-| POST   | login      | public | /api/v1/auth/login    |
+| GET    | login      | public | /api/v1/auth/login    |
 
 # SUPPORT
 
