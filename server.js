@@ -20,8 +20,7 @@ app.use(
   session({
     secret: 'xyz567',
     resave: false,
-    saveUninitialized: true,
-    cookie: { secure: true },
+    saveUninitialized: false,
     store: MongoStore.create({
       mongoUrl: 'mongodb://127.0.0.1:27017/bulletin-board-app',
     }),
