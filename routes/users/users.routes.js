@@ -23,5 +23,3 @@ router.put('/:id', updateById);
 router.delete('/:id', deleteById);
 
 module.exports = router;
-
-// TODO: create auth route
