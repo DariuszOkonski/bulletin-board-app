@@ -106,6 +106,7 @@ const login = async (req, res) => {
       throw new AppError('Invalid credentials', 'INVALID_CREDENTIALS', 401);
     }
 
+    req.session.login = user.login;
     return res.json({
       success: true,
       data: {

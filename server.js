@@ -2,6 +2,9 @@ const express = require('express');
 require('dotenv').config();
 const cors = require('cors');
 const { connectWithRetry } = require('./db/mongoose');
+const session = require('express-session');
+const MongoStore = require('connect-mongo');
+const mongoose = require('mongoose');
 
 const AdsRoutes = require('./routes/ads/ads.routes');
 const UsersRoutes = require('./routes/users/users.routes');
@@ -12,6 +15,18 @@ const app = express();
 // // Middleware
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(
+  session({
+    secret: 'xyz567',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: true },
+    store: MongoStore.create({
+      mongoUrl: 'mongodb://127.0.0.1:27017/bulletin-board-app',
+    }),
+  })
+);
 
 const PORT = process.env.PORT || 3000;
 
