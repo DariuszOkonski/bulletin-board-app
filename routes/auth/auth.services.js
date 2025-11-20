@@ -25,13 +25,15 @@ const bcrypt = require('bcrypt');
 // };
 
 const getUser = async (req, res) => {
-  if (req.session.login) {
-    return res.send({ success: true, login: req.session.login });
-  } else {
-    return res
-      .status(401)
-      .send({ success: false, message: 'You are not authorized' });
-  }
+  return res.json({ success: true, data: { login: req.session.login } });
+
+  // if (req.session.login) {
+  //   return res.send({ success: true, login: req.session.login });
+  // } else {
+  //   return res
+  //     .status(401)
+  //     .send({ success: false, message: 'You are not authorized' });
+  // }
 };
 
 const register = async (req, res) => {
@@ -86,6 +88,11 @@ const register = async (req, res) => {
   }
 };
 
+const logout = async (req, res) => {
+  req.session.login = undefined;
+  return res.json({ success: true, data: { message: 'You are logged out' } });
+};
+
 const login = async (req, res) => {
   try {
     const { login, password } = req.body || {};
@@ -133,4 +140,5 @@ module.exports = {
   getUser,
   register,
   login,
+  logout,
 };
