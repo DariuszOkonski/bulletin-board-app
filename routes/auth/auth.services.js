@@ -25,8 +25,6 @@ const bcrypt = require('bcrypt');
 // };
 
 const getUser = async (req, res) => {
-  console.log('req.session.login: ', req.session.login);
-
   if (req.session.login) {
     return res.send({ success: true, login: req.session.login });
   } else {
@@ -119,9 +117,6 @@ const login = async (req, res) => {
     }
 
     req.session.login = user.login;
-
-    console.log('user.login: ', user.login);
-    console.log('req.session.login: ', req.session.login);
 
     return res.json({
       success: true,
