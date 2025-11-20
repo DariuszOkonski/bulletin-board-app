@@ -4,7 +4,7 @@ const authMiddleware = require('../../utils/authMiddleware');
 
 const router = express.Router();
 
-router.post('/logout', authMiddleware, logout);
+router.delete('/logout', authMiddleware, logout);
 
 router.post('/login', login);
 

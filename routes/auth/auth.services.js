@@ -1,4 +1,4 @@
-const { Ad, User } = require('../../models');
+const { Ad, User, Session } = require('../../models');
 const { handleError, AppError } = require('../../utils/error-handler');
 const { validateObjectId } = require('../../utils/validate-id');
 const bcrypt = require('bcrypt');
@@ -92,7 +92,13 @@ const register = async (req, res) => {
 };
 
 const logout = async (req, res) => {
-  req.session.user = undefined;
+  // req.session.user = undefined;
+  req.session.destroy();
+
+  if (process.env.NODE_ENV !== 'production') {
+    await Session.deleteMany();
+  }
+
   return res.json({ success: true, data: { message: 'You are logged out' } });
 };
 
