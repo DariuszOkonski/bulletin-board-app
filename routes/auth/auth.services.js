@@ -25,7 +25,10 @@ const bcrypt = require('bcrypt');
 // };
 
 const getUser = async (req, res) => {
-  return res.json({ success: true, data: { login: req.session.login } });
+  return res.json({
+    success: true,
+    data: { login: req.session.user.login, id: req.session.user.id },
+  });
 
   // if (req.session.login) {
   //   return res.send({ success: true, login: req.session.login });
@@ -89,7 +92,7 @@ const register = async (req, res) => {
 };
 
 const logout = async (req, res) => {
-  req.session.login = undefined;
+  req.session.user = undefined;
   return res.json({ success: true, data: { message: 'You are logged out' } });
 };
 
@@ -123,7 +126,11 @@ const login = async (req, res) => {
       throw new AppError('Invalid credentials', 'INVALID_CREDENTIALS', 401);
     }
 
-    req.session.login = user.login;
+    // req.session.login = user.login;
+    req.session.user = {
+      login: user.login,
+      id: user.id,
+    };
 
     return res.json({
       success: true,
