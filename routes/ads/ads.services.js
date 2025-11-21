@@ -3,21 +3,6 @@ const { handleError, AppError } = require('../../utils/error-handler');
 const { validateObjectId } = require('../../utils/validate-id');
 
 const getAll = async (req, res) => {
-  // try {
-  //   const ads = await Ad.find().populate({
-  //     path: 'user',
-  //     model: 'User', // Explicitly specify the model
-  //   });
-
-  //   return res.json({
-  //     success: true,
-  //     count: ads.length,
-  //     data: ads,
-  //   });
-  // } catch (error) {
-  //   return handleError(error, res);
-  // }
-
   try {
     const ads = await Ad.find().populate({
       path: 'user',
