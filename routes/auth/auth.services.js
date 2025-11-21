@@ -3,40 +3,11 @@ const { handleError, AppError } = require('../../utils/error-handler');
 const { validateObjectId } = require('../../utils/validate-id');
 const bcrypt = require('bcrypt');
 
-// const getUser = async (req, res) => {
-//   try {
-//     const { id } = req.params;
-
-//     validateObjectId(id, 'User');
-
-//     const user = await User.findById(id).select('-password');
-
-//     if (!user) {
-//       throw new AppError('User not found', 'USER_NOT_FOUND', 404);
-//     }
-
-//     return res.json({
-//       success: true,
-//       data: user,
-//     });
-//   } catch (error) {
-//     return handleError(error, res, error.statusCode);
-//   }
-// };
-
 const getUser = async (req, res) => {
   return res.json({
     success: true,
     data: { login: req.session.user.login, id: req.session.user.id },
   });
-
-  // if (req.session.login) {
-  //   return res.send({ success: true, login: req.session.login });
-  // } else {
-  //   return res
-  //     .status(401)
-  //     .send({ success: false, message: 'You are not authorized' });
-  // }
 };
 
 const register = async (req, res) => {
