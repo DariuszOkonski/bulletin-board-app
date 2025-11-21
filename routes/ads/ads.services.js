@@ -64,7 +64,8 @@ const getById = async (req, res) => {
 
 const create = async (req, res) => {
   try {
-    const { title, content, picture, price, user } = req.body || {};
+    const { title, content, price, user } = req.body || {};
+    const picture = req.file.filename;
 
     // Check required fields
     const missing = [];

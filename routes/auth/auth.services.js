@@ -11,8 +11,15 @@ const getUser = async (req, res) => {
 };
 
 const register = async (req, res) => {
+  console.log('REGISTER');
+
   try {
-    const { login, password, avatar, phone, location } = req.body || {};
+    const { login, password, phone, location } = req.body || {};
+    const avatar = req.file.filename;
+
+    console.log('req.body: ', req.body);
+    console.log('req.file: ', req.file);
+    console.log('avatar: ', avatar);
 
     // Validate required fields
     const missing = [];

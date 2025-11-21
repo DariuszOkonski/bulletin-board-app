@@ -6,6 +6,8 @@ const {
   updateById,
   deleteById,
 } = require('./ads.services');
+const imageUpload = require('../../utils/imageUpload');
+
 const router = express.Router();
 
 // Get all ads
@@ -15,7 +17,7 @@ router.get('/', getAll);
 router.get('/:id', getById);
 
 // Create new ad
-router.post('/', create);
+router.post('/', imageUpload.single('picture'), create);
 
 // Update ad
 router.put('/:id', updateById);
