@@ -2,6 +2,7 @@ const { Ad, User, Session } = require('../../models');
 const { handleError, AppError } = require('../../utils/error-handler');
 const { validateObjectId } = require('../../utils/validate-id');
 const bcrypt = require('bcrypt');
+const getImageFileType = require('../../utils/getImageFileType');
 
 const getUser = async (req, res) => {
   return res.json({
@@ -15,17 +16,21 @@ const register = async (req, res) => {
 
   try {
     const { login, password, phone, location } = req.body || {};
+    const fileType = req.file ? await getImageFileType(req.file) : 'unknown';
     const avatar = req.file.filename;
-
-    console.log('req.body: ', req.body);
-    console.log('req.file: ', req.file);
-    console.log('avatar: ', avatar);
 
     // Validate required fields
     const missing = [];
     if (!login) missing.push('login');
     if (!password) missing.push('password');
-    if (!avatar) missing.push('avatar');
+    if (!avatar) {
+      missing.push('avatar');
+    } else {
+      if (!['image/png', 'image/jpeg', 'image/jpg'].includes(fileType)) {
+        missing.push('avatar-format-wrong');
+      }
+    }
+
     if (!phone) missing.push('phone');
     if (!location) missing.push('location');
 

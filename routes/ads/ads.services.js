@@ -1,6 +1,7 @@
 const { Ad, User } = require('../../models');
 const { handleError, AppError } = require('../../utils/error-handler');
 const { validateObjectId } = require('../../utils/validate-id');
+const getImageFileType = require('../../utils/getImageFileType');
 
 const getAll = async (req, res) => {
   try {
@@ -65,13 +66,20 @@ const getById = async (req, res) => {
 const create = async (req, res) => {
   try {
     const { title, content, price, user } = req.body || {};
+    const fileType = req.file ? await getImageFileType(req.file) : 'unknown';
     const picture = req.file.filename;
 
     // Check required fields
     const missing = [];
     if (!title) missing.push('title');
     if (!content) missing.push('content');
-    if (!picture) missing.push('picture');
+    if (!picture) {
+      missing.push('picture');
+    } else {
+      if (!['image/png', 'image/jpeg', 'image/jpg'].includes(fileType)) {
+        missing.push('avatar-format-wrong');
+      }
+    }
     if (price === undefined || price === null) missing.push('price');
     if (!user) missing.push('user');
 
