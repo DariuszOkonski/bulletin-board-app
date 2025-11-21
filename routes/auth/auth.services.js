@@ -4,6 +4,8 @@ const { validateObjectId } = require('../../utils/validate-id');
 const bcrypt = require('bcrypt');
 const getImageFileType = require('../../utils/getImageFileType');
 
+const MAX_FILESIZE = 500 * 1024;
+
 const getUser = async (req, res) => {
   return res.json({
     success: true,
@@ -12,12 +14,11 @@ const getUser = async (req, res) => {
 };
 
 const register = async (req, res) => {
-  console.log('REGISTER');
-
   try {
     const { login, password, phone, location } = req.body || {};
     const fileType = req.file ? await getImageFileType(req.file) : 'unknown';
     const avatar = req.file.filename;
+    const fileSize = parseInt(req.headers['content-length']);
 
     // Validate required fields
     const missing = [];
@@ -29,6 +30,10 @@ const register = async (req, res) => {
       if (!['image/png', 'image/jpeg', 'image/jpg'].includes(fileType)) {
         missing.push('avatar-format-wrong');
       }
+    }
+
+    if (fileSize > MAX_FILESIZE) {
+      missing.push('file size to big');
     }
 
     if (!phone) missing.push('phone');

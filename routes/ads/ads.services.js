@@ -3,6 +3,8 @@ const { handleError, AppError } = require('../../utils/error-handler');
 const { validateObjectId } = require('../../utils/validate-id');
 const getImageFileType = require('../../utils/getImageFileType');
 
+const MAX_FILESIZE = 500 * 1024;
+
 const getAll = async (req, res) => {
   try {
     const ads = await Ad.find().populate({
@@ -68,6 +70,7 @@ const create = async (req, res) => {
     const { title, content, price, user } = req.body || {};
     const fileType = req.file ? await getImageFileType(req.file) : 'unknown';
     const picture = req.file.filename;
+    const fileSize = parseInt(req.headers['content-length']);
 
     // Check required fields
     const missing = [];
@@ -79,6 +82,9 @@ const create = async (req, res) => {
       if (!['image/png', 'image/jpeg', 'image/jpg'].includes(fileType)) {
         missing.push('avatar-format-wrong');
       }
+    }
+    if (fileSize > MAX_FILESIZE) {
+      missing.push('file size to big');
     }
     if (price === undefined || price === null) missing.push('price');
     if (!user) missing.push('user');
