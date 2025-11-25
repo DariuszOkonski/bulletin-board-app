@@ -20,7 +20,7 @@ router.get('/:id', getById);
 router.post('/', imageUpload.single('picture'), create);
 
 // Update ad
-router.put('/:id', updateById);
+router.put('/:id', imageUpload.single('picture'), updateById);
 
 // Delete ad
 router.delete('/:id', deleteById);

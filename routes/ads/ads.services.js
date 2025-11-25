@@ -192,14 +192,24 @@ const create = async (req, res) => {
 const updateById = async (req, res) => {
   try {
     const { id } = req.params;
+    const fileType = req.file ? await getImageFileType(req.file) : 'unknown';
+    const picture = req?.file?.filename;
 
     // Validate ID format
     validateObjectId(id, 'Ad');
 
     // Find existing ad
     const ad = await Ad.findById(id);
+
     if (!ad) {
       throw new AppError('Advertisement not found', 'AD_NOT_FOUND', 404);
+    }
+
+    if (
+      picture &&
+      !['image/png', 'image/jpeg', 'image/jpg'].includes(fileType)
+    ) {
+      throw new AppError('Avatar wrong format', 'WRONG_FORMAT', 400);
     }
 
     // Do not allow changing the owner
@@ -226,6 +236,11 @@ const updateById = async (req, res) => {
     });
 
     // Save changes (will run schema validators)
+
+    if (picture) {
+      ad.picture = picture;
+    }
+
     const saved = await ad.save();
 
     // Populate user before returning
