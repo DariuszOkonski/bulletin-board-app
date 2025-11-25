@@ -5,7 +5,7 @@ const getImageFileType = require('../../utils/getImageFileType');
 const fs = require('fs');
 const path = require('path');
 
-const MAX_FILESIZE = 500 * 1024;
+const MAX_FILESIZE = 500 * 1024 * 4;
 
 const getAll = async (req, res) => {
   try {
