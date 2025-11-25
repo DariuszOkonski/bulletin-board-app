@@ -5,6 +5,7 @@ const { connectWithRetry } = require('./db/mongoose');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const mongoose = require('mongoose');
+const path = require('path');
 
 const AdsRoutes = require('./routes/ads/ads.routes');
 const UsersRoutes = require('./routes/users/users.routes');
@@ -26,6 +27,10 @@ app.use(
     }),
   })
 );
+
+// this middleware has to be probably after endpoints
+app.use(express.static(path.join(__dirname, '/client/build')));
+app.use(express.static(path.join(__dirname, '/public')));
 
 const PORT = process.env.PORT || 3000;
 
