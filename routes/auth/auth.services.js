@@ -3,6 +3,8 @@ const { handleError, AppError } = require('../../utils/error-handler');
 const { validateObjectId } = require('../../utils/validate-id');
 const bcrypt = require('bcrypt');
 const getImageFileType = require('../../utils/getImageFileType');
+const fs = require('fs');
+const path = require('path');
 
 const MAX_FILESIZE = 500 * 1024;
 
@@ -75,6 +77,18 @@ const register = async (req, res) => {
 
     return res.status(201).json({ success: true, data: userToReturn });
   } catch (error) {
+    try {
+      const uploadedFilePath = req.file
+        ? req.file.path || path.join(__dirname, '../../public/uploads', avatar)
+        : null;
+
+      if (req.file && uploadedFilePath && fs.existsSync(uploadedFilePath)) {
+        fs.unlinkSync(uploadedFilePath);
+      }
+    } catch (unlinkErr) {
+      console.error('Failed to remove uploaded file: ', unlinkErr);
+    }
+
     return handleError(error, res, error.statusCode);
   }
 };

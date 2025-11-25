@@ -2,6 +2,8 @@ const { Ad, User } = require('../../models');
 const { handleError, AppError } = require('../../utils/error-handler');
 const { validateObjectId } = require('../../utils/validate-id');
 const getImageFileType = require('../../utils/getImageFileType');
+const fs = require('fs');
+const path = require('path');
 
 const MAX_FILESIZE = 500 * 1024;
 
@@ -148,6 +150,18 @@ const create = async (req, res) => {
 
     return res.status(201).json({ success: true, data: ad });
   } catch (error) {
+    try {
+      const uploadedFilePath = req.file
+        ? req.file.path || path.join(__dirname, '../../public/uploads', avatar)
+        : null;
+
+      if (req.file && uploadedFilePath && fs.existsSync(uploadedFilePath)) {
+        fs.unlinkSync(uploadedFilePath);
+      }
+    } catch (unlinkErr) {
+      console.error('Failed to remove uploaded file: ', unlinkErr);
+    }
+
     // Map mongoose validation errors
     if (error && error.name === 'ValidationError') {
       const details = Object.keys(error.errors || {}).map((k) => ({
