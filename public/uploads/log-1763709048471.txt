@@ -1,4 +1,0 @@
-INFO: Migration started at: 06/08/2020 13:24:26
-INFO: Migration finished at: 06/08/2020 13:24:26
-INFO: Migration started at: 06/08/2020 13:24:35
-INFO: Migration finished at: 06/08/2020 13:24:35
