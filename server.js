@@ -4,11 +4,9 @@ const cors = require('cors');
 const { connectWithRetry } = require('./db/mongoose');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
-const mongoose = require('mongoose');
 const path = require('path');
 
 const AdsRoutes = require('./routes/ads/ads.routes');
-const UsersRoutes = require('./routes/users/users.routes');
 const AuthRoutes = require('./routes/auth/auth.routes');
 
 const app = express();
@@ -39,7 +37,6 @@ const start = async () => {
     await connectWithRetry();
 
     app.use('/api/v1/ads', AdsRoutes);
-    app.use('/api/v1/users', UsersRoutes);
     app.use('/api/v1/auth', AuthRoutes);
 
     // 404 handler
