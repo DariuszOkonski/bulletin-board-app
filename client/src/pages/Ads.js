@@ -14,6 +14,7 @@ import FullPageSpinner from '../components/FullPageSpinner';
 import ErrorModal from '../components/ErrorModal';
 import { useEffect } from 'react';
 import NoAdsFound from '../components/NoAdsFound';
+import PageTitle from '../components/PageTitle';
 
 const Ads = () => {
   const { ads, isPending, status, isError } = useGetAllAds();
@@ -45,9 +46,18 @@ const Ads = () => {
     <div>
       <Row className='mb-3'>
         <Col>
-          <h2>Advertisements</h2>
+          <PageTitle title='Advertisements' />
         </Col>
       </Row>
+      {ads.data.map((item) => (
+        <Row className='mb-3'>
+          <Col>
+            <p>title: {item.title}</p>
+            <p>picture: {item.picture}</p>
+            <p>location: {item.user.location}</p>
+          </Col>
+        </Row>
+      ))}
     </div>
   );
 };
