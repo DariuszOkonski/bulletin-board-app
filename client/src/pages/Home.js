@@ -1,5 +1,6 @@
 import { Row, Col, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import FullPageSpinner from '../components/FullPageSpinner';
 
 const Home = () => (
   <div>
