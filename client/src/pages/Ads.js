@@ -13,15 +13,15 @@ import useGetAllAds from '../hooks/useGetAllAds';
 import FullPageSpinner from '../components/FullPageSpinner';
 import ErrorModal from '../components/ErrorModal';
 import { useEffect } from 'react';
+import NoAdsFound from '../components/NoAdsFound';
 
 const Ads = () => {
-  const { data, isPending, status, isError, error } = useGetAllAds();
+  const { ads, isPending, status, isError } = useGetAllAds();
 
-  console.log('data: ', data);
+  console.log('ads: ', ads);
   console.log('isPending: ', isPending);
   console.log('status: ', status);
   console.log('isError: ', isError);
-  console.log('error: ', error);
 
   if (isPending) {
     return <FullPageSpinner />;
@@ -35,6 +35,10 @@ const Ads = () => {
         message='Unable to load ads. Please check your internet connection or try again later.'
       />
     );
+  }
+
+  if (!ads.data.length) {
+    return <NoAdsFound />;
   }
 
   return (

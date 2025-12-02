@@ -1,7 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 
-const API_URL =
-  process.env.REACT_APP_API_URL || 'http://localhost:3001/api/v11';
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001/api/v1';
 
 const fetchAllAds = async (searchParams = {}) => {
   const queryString = new URLSearchParams(searchParams).toString();
@@ -15,7 +14,11 @@ const fetchAllAds = async (searchParams = {}) => {
 };
 
 export const useGetAllAds = (searchParams = {}) => {
-  const { data, isPending, isError } = useQuery({
+  const {
+    data: ads,
+    isPending,
+    isError,
+  } = useQuery({
     queryKey: ['ads', searchParams],
     queryFn: () => fetchAllAds(searchParams),
     staleTime: 1000 * 60 * 5, // 5 minutes
@@ -23,7 +26,7 @@ export const useGetAllAds = (searchParams = {}) => {
     retry: 2,
   });
 
-  return { data, isPending, isError };
+  return { ads, isPending, isError };
 };
 
 export default useGetAllAds;
