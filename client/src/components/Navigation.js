@@ -1,6 +1,8 @@
-import { Link } from 'react-router-dom';
+import React from 'react';
+import { Link, NavLink } from 'react-router-dom';
 import { Navbar, Nav, Container } from 'react-bootstrap';
 
+// ...existing code...
 const Navigation = () => (
   <Navbar bg='primary' variant='dark' expand='lg' className='mb-3'>
     <Container>
@@ -10,13 +12,26 @@ const Navigation = () => (
       <Navbar.Toggle aria-controls='main-navbar' />
       <Navbar.Collapse id='main-navbar'>
         <Nav className='me-auto'>
-          <Nav.Link as={Link} to='/'>
+          <Nav.Link
+            as={NavLink}
+            to='/'
+            end
+            className={({ isActive }) => (isActive ? 'fw-bold' : '')}
+          >
             Home
           </Nav.Link>
-          <Nav.Link as={Link} to='/about'>
+          <Nav.Link
+            as={NavLink}
+            to='/about'
+            className={({ isActive }) => (isActive ? 'fw-bold' : '')}
+          >
             About
           </Nav.Link>
-          <Nav.Link as={Link} to='/ads'>
+          <Nav.Link
+            as={NavLink}
+            to='/ads'
+            className={({ isActive }) => (isActive ? 'fw-bold' : '')}
+          >
             Ads
           </Nav.Link>
         </Nav>
@@ -24,5 +39,6 @@ const Navigation = () => (
     </Container>
   </Navbar>
 );
+// ...existing code...
 
 export default Navigation;
