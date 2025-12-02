@@ -22,17 +22,17 @@ const Navigation = () => (
           </Nav.Link>
           <Nav.Link
             as={NavLink}
-            to='/about'
-            className={({ isActive }) => (isActive ? 'fw-bold' : '')}
-          >
-            About
-          </Nav.Link>
-          <Nav.Link
-            as={NavLink}
             to='/ads'
             className={({ isActive }) => (isActive ? 'fw-bold' : '')}
           >
             Ads
+          </Nav.Link>
+          <Nav.Link
+            as={NavLink}
+            to='/about'
+            className={({ isActive }) => (isActive ? 'fw-bold' : '')}
+          >
+            About
           </Nav.Link>
         </Nav>
       </Navbar.Collapse>

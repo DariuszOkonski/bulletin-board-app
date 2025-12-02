@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import FullPageSpinner from '../components/FullPageSpinner';
 import ErrorModal from '../components/ErrorModal';
 import { useState } from 'react';
+import useGetAllAds from '../hooks/useGetAllAds';
 
 const Home = () => {
   return (
