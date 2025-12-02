@@ -7,7 +7,8 @@ const AdShortCard = ({ id, title, picture, location }) => (
     {picture && (
       <Card.Img
         variant='top'
-        src={picture.startsWith('http') ? picture : `/uploads/${picture}`}
+        // src={`../../../public/uploads/${picture}`}
+        src=''
         alt={title}
         style={{ objectFit: 'cover', height: 200 }}
       />
