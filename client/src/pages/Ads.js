@@ -15,6 +15,7 @@ import ErrorModal from '../components/ErrorModal';
 import { useEffect } from 'react';
 import NoAdsFound from '../components/NoAdsFound';
 import PageTitle from '../components/PageTitle';
+import AdShortCard from '../components/AdShortCard';
 
 const Ads = () => {
   const { ads, isPending, status, isError } = useGetAllAds();
@@ -52,9 +53,13 @@ const Ads = () => {
       {ads.data.map((item) => (
         <Row className='mb-3'>
           <Col>
-            <p>title: {item.title}</p>
-            <p>picture: {item.picture}</p>
-            <p>location: {item.user.location}</p>
+            <AdShortCard
+              key={item._id}
+              id={item._id}
+              title={item.title}
+              picture={item.picture}
+              location={item.user.location}
+            />
           </Col>
         </Row>
       ))}
