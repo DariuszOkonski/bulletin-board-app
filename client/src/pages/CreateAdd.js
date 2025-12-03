@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { use, useState } from 'react';
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import FullPageSpinner from '../components/FullPageSpinner';
@@ -13,7 +13,7 @@ const CreateAdd = () => {
   const [price, setPrice] = useState('');
   const [picture, setPicture] = useState(null);
 
-  const { data: ad, isLoading, isError, error } = useCreateAd();
+  const { mutate, isLoading, isError, error } = useCreateAd();
 
   const onFileChange = (e) => {
     setPicture(e.target.files && e.target.files[0] ? e.target.files[0] : null);
@@ -44,32 +44,11 @@ const CreateAdd = () => {
     formData.append('content', content);
     formData.append('price', Number(price));
     if (picture) formData.append('picture', picture);
+    formData.append('user', user);
 
-    console.group('Submit');
-    console.log('formData: ', formData);
-    console.log('title: ', title);
-    console.log('content: ', content);
-    console.log('price: ', price);
-    console.log('pictureFile: ', picture);
-    console.groupEnd();
-
-    // try {
-    //   const res = await fetch(`${API_URL}/ads`, {
-    //     method: 'POST',
-    //     body: formData,
-    //   });
-
-    //   if (!res.ok) {
-    //     const errText = await res.text();
-    //     throw new Error(errText || `Server responded with ${res.status}`);
-    //   }
-
-    //   navigate('/ads');
-    // } catch (err) {
-    //   setError({ message: err instanceof Error ? err.message : String(err) });
-    // } finally {
-    //   setLoading(false);
-    // }
+    mutate(formData, {
+      onSuccess: () => navigate('/ads'),
+    });
   };
 
   if (isLoading) {
