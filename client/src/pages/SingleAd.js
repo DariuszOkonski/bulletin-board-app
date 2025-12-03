@@ -171,6 +171,27 @@ const SingleAd = () => {
                   >
                     Back to Ads
                   </Button>
+                  {/*
+                    TODO: redirect to edit page
+                    <Button
+                    as={Link}
+                    to='/ads'
+                    variant='outline-primary'
+                    className='mt-4'
+                  >
+                    Edit Ad
+                  </Button>
+
+                  TODO: remove and redirect to main page
+                  <Button
+                    as={Link}
+                    to='/ads'
+                    variant='outline-primary'
+                    className='mt-4'
+                  >
+                    Delete Ad
+                  </Button>
+                    */}
                 </Card.Body>
               </Col>
             </Row>
