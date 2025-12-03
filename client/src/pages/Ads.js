@@ -46,10 +46,9 @@ const Ads = () => {
         </Col>
       </Row>
       {ads.data.map((item) => (
-        <Row className='mb-3'>
+        <Row className='mb-3' key={item._id}>
           <Col>
             <AdShortCard
-              key={item._id}
               id={item._id}
               title={item.title}
               picture={item.picture}
