@@ -38,6 +38,8 @@ const Ads = () => {
     return <NoAdsFound />;
   }
 
+  console.log('!!! ');
+
   return (
     <div>
       <Row className='mb-3'>
@@ -52,6 +54,7 @@ const Ads = () => {
               id={item._id}
               title={item.title}
               picture={item.picture}
+              author={item.user.login}
               location={item.user.location}
             />
           </Col>

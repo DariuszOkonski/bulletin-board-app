@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, Button, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-const AdShortCard = ({ id, title, picture, location }) => {
+const AdShortCard = ({ id, title, picture, location, author }) => {
   // TODO: fix src later on
   const src = picture
     ? picture.startsWith('http')
@@ -37,7 +37,10 @@ const AdShortCard = ({ id, title, picture, location }) => {
           <Col xs={12} md={5} lg={6} className='mb-2 mb-md-0'>
             <h5 className='mb-1'>{title}</h5>
             <p className='text-muted mb-0'>
-              {location || 'Location not specified'}
+              <strong>Location:</strong> {location || 'Location not specified'}
+            </p>
+            <p className='text-muted mb-0'>
+              <strong>Author:</strong> {author || 'Author not specified'}
             </p>
           </Col>
 
