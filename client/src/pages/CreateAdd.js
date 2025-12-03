@@ -4,22 +4,19 @@ import { useNavigate } from 'react-router-dom';
 import FullPageSpinner from '../components/FullPageSpinner';
 import ErrorModal from '../components/ErrorModal';
 import PageTitle from '../components/PageTitle';
-
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000/api/v1';
+import useCreateAd from '../hooks/useCreateAd';
 
 const CreateAdd = () => {
   const navigate = useNavigate();
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [price, setPrice] = useState('');
-  const [pictureFile, setPictureFile] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [picture, setPicture] = useState(null);
+
+  const { data: ad, isLoading, isError, error } = useCreateAd();
 
   const onFileChange = (e) => {
-    setPictureFile(
-      e.target.files && e.target.files[0] ? e.target.files[0] : null
-    );
+    setPicture(e.target.files && e.target.files[0] ? e.target.files[0] : null);
   };
 
   const validate = () => {
@@ -35,48 +32,62 @@ const CreateAdd = () => {
     e.preventDefault();
     const missing = validate();
     if (missing.length) {
-      setError({ message: `Missing or invalid fields: ${missing.join(', ')}` });
+      alert({ message: `Missing or invalid fields: ${missing.join(', ')}` });
       return;
     }
+
+    // TODO: get user when logged in
+    const user = '69255294c692c3429e6cda2d';
 
     const formData = new FormData();
     formData.append('title', title);
     formData.append('content', content);
     formData.append('price', Number(price));
-    if (pictureFile) formData.append('picture', pictureFile);
+    if (picture) formData.append('picture', picture);
 
-    setLoading(true);
-    setError(null);
+    console.group('Submit');
+    console.log('formData: ', formData);
+    console.log('title: ', title);
+    console.log('content: ', content);
+    console.log('price: ', price);
+    console.log('pictureFile: ', picture);
+    console.groupEnd();
 
-    try {
-      const res = await fetch(`${API_URL}/ads`, {
-        method: 'POST',
-        body: formData,
-      });
+    // try {
+    //   const res = await fetch(`${API_URL}/ads`, {
+    //     method: 'POST',
+    //     body: formData,
+    //   });
 
-      if (!res.ok) {
-        const errText = await res.text();
-        throw new Error(errText || `Server responded with ${res.status}`);
-      }
+    //   if (!res.ok) {
+    //     const errText = await res.text();
+    //     throw new Error(errText || `Server responded with ${res.status}`);
+    //   }
 
-      navigate('/ads');
-    } catch (err) {
-      setError({ message: err instanceof Error ? err.message : String(err) });
-    } finally {
-      setLoading(false);
-    }
+    //   navigate('/ads');
+    // } catch (err) {
+    //   setError({ message: err instanceof Error ? err.message : String(err) });
+    // } finally {
+    //   setLoading(false);
+    // }
   };
+
+  if (isLoading) {
+    return <FullPageSpinner show />;
+  }
+
+  if (isError) {
+    return (
+      <ErrorModal
+        show={isError}
+        title='Failed to create ad'
+        message={error?.message || 'Unknown error'}
+      />
+    );
+  }
 
   return (
     <Container className='py-4'>
-      <FullPageSpinner show={loading} />
-      <ErrorModal
-        show={!!error}
-        title='Failed to create ad'
-        message={error?.message || 'Unknown error'}
-        onClose={() => setError(null)}
-      />
-
       <Row className='mb-4'>
         <Col>
           <PageTitle title='Create Advertisement' />
