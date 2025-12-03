@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
+import { LOCALHOST } from '../utils/constants';
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001/api/v1';
+const API_URL = process.env.REACT_APP_API_URL || LOCALHOST;
 
 const fetchAllAds = async (searchParams = {}) => {
   const queryString = new URLSearchParams(searchParams).toString();

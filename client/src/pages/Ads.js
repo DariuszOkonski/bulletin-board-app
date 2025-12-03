@@ -1,24 +1,16 @@
-import React, { useState } from 'react';
-import {
-  Container,
-  Row,
-  Col,
-  Card,
-  Button,
-  Form,
-  InputGroup,
-} from 'react-bootstrap';
-import { Link } from 'react-router-dom';
-import useGetAllAds from '../hooks/useGetAllAds';
-import FullPageSpinner from '../components/FullPageSpinner';
+import { useState } from 'react';
+import { Col, Row } from 'react-bootstrap';
+import AdShortCard from '../components/AdShortCard';
 import ErrorModal from '../components/ErrorModal';
-import { useEffect } from 'react';
+import FullPageSpinner from '../components/FullPageSpinner';
 import NoAdsFound from '../components/NoAdsFound';
 import PageTitle from '../components/PageTitle';
-import AdShortCard from '../components/AdShortCard';
+import SearchAds from '../components/SearchAds';
+import useGetAllAds from '../hooks/useGetAllAds';
 
 const Ads = () => {
-  const { ads, isPending, isError } = useGetAllAds();
+  const [searchBy, setSearchBy] = useState('');
+  const { ads, isPending, isError } = useGetAllAds({ search: searchBy });
 
   if (isPending) {
     return <FullPageSpinner />;
@@ -43,6 +35,11 @@ const Ads = () => {
       <Row className='mb-3'>
         <Col>
           <PageTitle title='Advertisements' />
+        </Col>
+      </Row>
+      <Row className='mb-3'>
+        <Col>
+          <SearchAds onSetSearchBy={setSearchBy} />
         </Col>
       </Row>
       {ads.data.map((item) => (
