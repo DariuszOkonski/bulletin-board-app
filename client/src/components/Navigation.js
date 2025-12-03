@@ -29,6 +29,13 @@ const Navigation = () => (
           </Nav.Link>
           <Nav.Link
             as={NavLink}
+            to='/ads/new'
+            className={({ isActive }) => (isActive ? 'fw-bold' : '')}
+          >
+            LOG Create Ad
+          </Nav.Link>
+          <Nav.Link
+            as={NavLink}
             to='/about'
             className={({ isActive }) => (isActive ? 'fw-bold' : '')}
           >

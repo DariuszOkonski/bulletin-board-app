@@ -1,9 +1,5 @@
-import { Row, Col, Button } from 'react-bootstrap';
+import { Button, Col, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import FullPageSpinner from '../components/FullPageSpinner';
-import ErrorModal from '../components/ErrorModal';
-import { useState } from 'react';
-import useGetAllAds from '../hooks/useGetAllAds';
 
 const Home = () => {
   return (
@@ -24,7 +20,7 @@ const Home = () => {
             Browse Ads
           </Button>
           <Button as={Link} to='/ads/new' variant='secondary'>
-            Create Ad
+            LOG Create Ad
           </Button>
         </Col>
       </Row>
