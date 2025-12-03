@@ -18,12 +18,7 @@ import PageTitle from '../components/PageTitle';
 import AdShortCard from '../components/AdShortCard';
 
 const Ads = () => {
-  const { ads, isPending, status, isError } = useGetAllAds();
-
-  console.log('ads: ', ads);
-  console.log('isPending: ', isPending);
-  console.log('status: ', status);
-  console.log('isError: ', isError);
+  const { ads, isPending, isError } = useGetAllAds();
 
   if (isPending) {
     return <FullPageSpinner />;

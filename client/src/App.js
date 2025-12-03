@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import Navigation from './components/Navigation';
 import Home from './pages/Home';
 import Ads from './pages/Ads';
+import ErrorPage from './pages/ErrorPage';
 
 function App() {
   const queryClient = new QueryClient();
@@ -19,6 +20,7 @@ function App() {
             <Route path='/' element={<Home />} />
             <Route path='/ads' element={<Ads />} />
             <Route path='/about' element={<h1>About</h1>} />
+            <Route path='*' element={<ErrorPage />} />
           </Routes>
         </Container>
       </BrowserRouter>
