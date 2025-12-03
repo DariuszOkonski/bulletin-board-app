@@ -7,6 +7,7 @@ import Home from './pages/Home';
 import Ads from './pages/Ads';
 import ErrorPage from './pages/ErrorPage';
 import About from './pages/About';
+import SingleAd from './pages/SingleAd';
 
 function App() {
   const queryClient = new QueryClient();
@@ -20,6 +21,7 @@ function App() {
           <Routes>
             <Route path='/' element={<Home />} />
             <Route path='/ads' element={<Ads />} />
+            <Route path='/ads/:id' element={<SingleAd />} />
             <Route path='/about' element={<About />} />
             <Route path='*' element={<ErrorPage />} />
           </Routes>

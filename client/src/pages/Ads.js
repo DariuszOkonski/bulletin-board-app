@@ -38,8 +38,6 @@ const Ads = () => {
     return <NoAdsFound />;
   }
 
-  console.log('!!! ');
-
   return (
     <div>
       <Row className='mb-3'>
