@@ -1,10 +1,11 @@
 import React from 'react';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import useGetAdById from '../hooks/useGetAdById';
 import FullPageSpinner from '../components/FullPageSpinner';
 import ErrorModal from '../components/ErrorModal';
 import PageTitle from '../components/PageTitle';
+import useDeleteAd from '../hooks/useDeleteAd';
 
 const SingleAd = () => {
   const { id } = useParams();
@@ -15,20 +16,30 @@ const SingleAd = () => {
     error: errorQuery,
   } = useGetAdById(id);
 
-  if (isLoadingQuery) {
+  const {
+    mutate,
+    isLoading: isLoadingMutate,
+    isError: isErrorMutate,
+    error: errorMutate,
+  } = useDeleteAd(id);
+  const navigate = useNavigate();
+
+  if (isLoadingQuery || isLoadingMutate) {
     return <FullPageSpinner show />;
   }
 
-  if (isErrorQuery) {
+  if (isErrorQuery || isErrorMutate) {
+    const message = isErrorQuery
+      ? 'Failed to query'
+      : isErrorMutate
+      ? 'Failed to mutate'
+      : 'Failed to display ad';
+
     return (
       <ErrorModal
-        show={isErrorQuery}
+        show={isErrorQuery || isErrorMutate}
         title='Unable to load advertisement'
-        message={
-          errorQuery instanceof Error
-            ? errorQuery.message
-            : 'Failed to load ad details'
-        }
+        message={message}
       />
     );
   }
@@ -67,7 +78,8 @@ const SingleAd = () => {
   const handleDelete = () => {
     const ok = window.confirm('Are you sure you want to delete this item?');
     if (ok) {
-      console.log('id: ', id);
+      mutate(id);
+      navigate('/ads');
     }
   };
 
