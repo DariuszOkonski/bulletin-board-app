@@ -2,7 +2,6 @@ import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { Navbar, Nav, Container } from 'react-bootstrap';
 
-// ...existing code...
 const Navigation = () => (
   <Navbar bg='primary' variant='dark' expand='lg' className='mb-3'>
     <Container>
@@ -42,6 +41,12 @@ const Navigation = () => (
             About
           </Nav.Link>
         </Nav>
+
+        <hr
+          className='w-100 my-2 d-lg-none border-secondary'
+          style={{ opacity: 1 }}
+        />
+
         <Nav className='ms-auto'>
           <Nav.Link
             as={NavLink}
@@ -61,7 +66,7 @@ const Navigation = () => (
 
           <Nav.Link
             as={NavLink}
-            to='/'
+            to='/logout'
             className={({ isActive }) => (isActive ? 'fw-bold' : '')}
           >
             LOG - Log Out
