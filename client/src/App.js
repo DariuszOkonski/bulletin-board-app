@@ -9,6 +9,7 @@ import ErrorPage from './pages/ErrorPage';
 import About from './pages/About';
 import SingleAd from './pages/SingleAd';
 import CreateAd from './pages/CreateAd';
+import EditAd from './pages/EditAd';
 
 function App() {
   const queryClient = new QueryClient();
@@ -24,6 +25,7 @@ function App() {
             <Route path='/ads' element={<Ads />} />
             <Route path='/ads/new' element={<CreateAd />} />
             <Route path='/ads/:id' element={<SingleAd />} />
+            <Route path='/ads/edit/:id' element={<EditAd />} />
             <Route path='/about' element={<About />} />
             <Route path='*' element={<ErrorPage />} />
           </Routes>
