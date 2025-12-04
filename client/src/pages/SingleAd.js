@@ -8,19 +8,26 @@ import PageTitle from '../components/PageTitle';
 
 const SingleAd = () => {
   const { id } = useParams();
-  const { data: ad, isLoading, isError, error } = useGetAdById(id);
+  const {
+    data: ad,
+    isLoading: isLoadingQuery,
+    isError: isErrorQuery,
+    error: errorQuery,
+  } = useGetAdById(id);
 
-  if (isLoading) {
+  if (isLoadingQuery) {
     return <FullPageSpinner show />;
   }
 
-  if (isError) {
+  if (isErrorQuery) {
     return (
       <ErrorModal
-        show={isError}
+        show={isErrorQuery}
         title='Unable to load advertisement'
         message={
-          error instanceof Error ? error.message : 'Failed to load ad details'
+          errorQuery instanceof Error
+            ? errorQuery.message
+            : 'Failed to load ad details'
         }
       />
     );
@@ -55,6 +62,13 @@ const SingleAd = () => {
       hour: '2-digit',
       minute: '2-digit',
     });
+  };
+
+  const handleDelete = () => {
+    const ok = window.confirm('Are you sure you want to delete this item?');
+    if (ok) {
+      console.log('id: ', id);
+    }
   };
 
   return (
@@ -176,7 +190,11 @@ const SingleAd = () => {
                     LOG Edit Ad
                   </Button>
 
-                  <Button as={Link} to='/ads' variant='danger' className='m-1'>
+                  <Button
+                    variant='danger'
+                    className='m-1'
+                    onClick={handleDelete}
+                  >
                     LOG Delete Ad
                   </Button>
                 </Card.Body>
