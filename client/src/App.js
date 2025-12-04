@@ -11,6 +11,7 @@ import SingleAd from './pages/SingleAd';
 import CreateAd from './pages/CreateAd';
 import EditAd from './pages/EditAd';
 import Login from './pages/Login';
+import Register from './pages/Register';
 
 function App() {
   const queryClient = new QueryClient();
@@ -29,6 +30,7 @@ function App() {
             <Route path='/ads/edit/:id' element={<EditAd />} />
             <Route path='/about' element={<About />} />
             <Route path='/login' element={<Login />} />
+            <Route path='/register' element={<Register />} />
             <Route path='*' element={<ErrorPage />} />
           </Routes>
         </Container>
