@@ -1,11 +1,11 @@
-import React, { use, useEffect, useState } from 'react';
-import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+import { useEffect, useState } from 'react';
+import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 import { useNavigate, useParams } from 'react-router-dom';
-import FullPageSpinner from '../components/FullPageSpinner';
 import ErrorModal from '../components/ErrorModal';
+import FullPageSpinner from '../components/FullPageSpinner';
 import PageTitle from '../components/PageTitle';
-import useCreateAd from '../hooks/useCreateAd';
 import useGetAdById from '../hooks/useGetAdById';
+import useEditAd from '../hooks/useEditAd';
 
 const EditAd = () => {
   const navigate = useNavigate();
@@ -15,7 +15,18 @@ const EditAd = () => {
   const [picture, setPicture] = useState(null);
 
   const { id } = useParams();
-  const { data: ad, isLoading, isError, error } = useGetAdById(id);
+  const {
+    data: ad,
+    isLoading: isLoadingQuery,
+    isError: isErrorQuery,
+    error: errorQuery,
+  } = useGetAdById(id);
+  const {
+    mutate,
+    isLoading: isLoadingMutate,
+    isError: isErrorMutate,
+    error: errorMutate,
+  } = useEditAd(id);
 
   useEffect(() => {
     if (ad) {
@@ -62,21 +73,27 @@ const EditAd = () => {
     console.log('id: ', id);
     console.log('formData: ', formData);
 
-    // mutate(formData, {
-    //   onSuccess: () => navigate('/ads'),
-    // });
+    mutate(formData, {
+      onSuccess: () => navigate(`/ads/${id}`),
+    });
   };
 
-  if (isLoading) {
+  if (isLoadingQuery || isLoadingMutate) {
     return <FullPageSpinner show />;
   }
 
-  if (isError) {
+  if (isErrorQuery || isErrorMutate) {
+    const title = isErrorQuery
+      ? 'Failed to create ad'
+      : isErrorMutate
+      ? 'Failed to update ad'
+      : 'Failed to carry on with request';
+
     return (
       <ErrorModal
-        show={isError}
-        title='Failed to create ad'
-        message={error?.message || 'Unknown error'}
+        show={isErrorQuery || isErrorMutate}
+        title={title}
+        message={errorQuery.message || errorMutate.message || 'Unknown error'}
       />
     );
   }
@@ -135,7 +152,7 @@ const EditAd = () => {
 
             <div className='d-flex'>
               <Button type='submit' variant='primary' className='me-2'>
-                Create
+                Update
               </Button>
               <Button
                 variant='secondary'
