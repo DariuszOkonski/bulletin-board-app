@@ -6,7 +6,7 @@ import ErrorModal from '../components/ErrorModal';
 import PageTitle from '../components/PageTitle';
 import useCreateAd from '../hooks/useCreateAd';
 
-const CreateAdd = () => {
+const CreateAd = () => {
   const navigate = useNavigate();
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
@@ -132,4 +132,4 @@ const CreateAdd = () => {
   );
 };
 
-export default CreateAdd;
+export default CreateAd;

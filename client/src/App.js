@@ -8,7 +8,7 @@ import Ads from './pages/Ads';
 import ErrorPage from './pages/ErrorPage';
 import About from './pages/About';
 import SingleAd from './pages/SingleAd';
-import CreateAdd from './pages/CreateAdd';
+import CreateAd from './pages/CreateAd';
 
 function App() {
   const queryClient = new QueryClient();
@@ -22,7 +22,7 @@ function App() {
           <Routes>
             <Route path='/' element={<Home />} />
             <Route path='/ads' element={<Ads />} />
-            <Route path='/ads/new' element={<CreateAdd />} />
+            <Route path='/ads/new' element={<CreateAd />} />
             <Route path='/ads/:id' element={<SingleAd />} />
             <Route path='/about' element={<About />} />
             <Route path='*' element={<ErrorPage />} />
