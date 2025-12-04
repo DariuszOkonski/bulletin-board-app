@@ -41,13 +41,30 @@ const Navigation = () => (
           >
             About
           </Nav.Link>
-
+        </Nav>
+        <Nav className='ms-auto'>
           <Nav.Link
             as={NavLink}
             to='/login'
             className={({ isActive }) => (isActive ? 'fw-bold' : '')}
           >
-            Log In
+            NOTLOG - Log In
+          </Nav.Link>
+
+          <Nav.Link
+            as={NavLink}
+            to='/register'
+            className={({ isActive }) => (isActive ? 'fw-bold' : '')}
+          >
+            NOTLOG - Register
+          </Nav.Link>
+
+          <Nav.Link
+            as={NavLink}
+            to='/'
+            className={({ isActive }) => (isActive ? 'fw-bold' : '')}
+          >
+            LOG - Log Out
           </Nav.Link>
         </Nav>
       </Navbar.Collapse>
