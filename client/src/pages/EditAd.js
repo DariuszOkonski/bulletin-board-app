@@ -137,7 +137,10 @@ const EditAd = () => {
               <Button type='submit' variant='primary' className='me-2'>
                 Create
               </Button>
-              <Button variant='secondary' onClick={() => navigate('/')}>
+              <Button
+                variant='secondary'
+                onClick={() => navigate(`/ads/${id}`)}
+              >
                 Cancel
               </Button>
             </div>
