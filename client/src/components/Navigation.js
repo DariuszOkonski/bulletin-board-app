@@ -41,11 +41,18 @@ const Navigation = () => (
           >
             About
           </Nav.Link>
+
+          <Nav.Link
+            as={NavLink}
+            to='/login'
+            className={({ isActive }) => (isActive ? 'fw-bold' : '')}
+          >
+            Log In
+          </Nav.Link>
         </Nav>
       </Navbar.Collapse>
     </Container>
   </Navbar>
 );
-// ...existing code...
 
 export default Navigation;
