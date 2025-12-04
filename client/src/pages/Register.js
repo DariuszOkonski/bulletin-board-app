@@ -57,7 +57,7 @@ const Register = () => {
     <Container className='py-5'>
       <Row className='justify-content-center'>
         <Col md={6}>
-          <PageTitle title='Register' />
+          <PageTitle title='Sign Up' />
           <Form onSubmit={handleSubmit} encType='multipart/form-data'>
             <Form.Group className='mb-3' controlId='login'>
               <Form.Label>Login</Form.Label>
@@ -110,7 +110,7 @@ const Register = () => {
 
             <div className='d-flex'>
               <Button type='submit' variant='primary' className='me-2'>
-                Register
+                Sign up
               </Button>
               <Button variant='secondary' onClick={handleCancel}>
                 Cancel

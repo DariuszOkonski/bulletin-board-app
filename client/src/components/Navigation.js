@@ -53,7 +53,7 @@ const Navigation = () => (
             to='/login'
             className={({ isActive }) => (isActive ? 'fw-bold' : '')}
           >
-            NOTLOG - Log In
+            NOTLOG - Sign in
           </Nav.Link>
 
           <Nav.Link
@@ -61,7 +61,7 @@ const Navigation = () => (
             to='/register'
             className={({ isActive }) => (isActive ? 'fw-bold' : '')}
           >
-            NOTLOG - Register
+            NOTLOG - Sign up
           </Nav.Link>
 
           <Nav.Link
@@ -69,7 +69,7 @@ const Navigation = () => (
             to='/logout'
             className={({ isActive }) => (isActive ? 'fw-bold' : '')}
           >
-            LOG - Log Out
+            LOG - Sign out
           </Nav.Link>
         </Nav>
       </Navbar.Collapse>

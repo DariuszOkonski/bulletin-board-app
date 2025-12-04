@@ -44,7 +44,7 @@ const Login = () => {
     <Container className='py-5'>
       <Row className='justify-content-center'>
         <Col md={6}>
-          <PageTitle title='Login' />
+          <PageTitle title='Sign In' />
           <Form onSubmit={handleSubmit}>
             <Form.Group className='mb-3' controlId='login'>
               <Form.Label>Login</Form.Label>
@@ -68,7 +68,7 @@ const Login = () => {
 
             <div className='d-flex'>
               <Button type='submit' variant='primary' className='me-2'>
-                Login
+                Sign in
               </Button>
               <Button variant='secondary' onClick={handleCancel}>
                 Cancel
