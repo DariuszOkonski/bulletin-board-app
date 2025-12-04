@@ -70,9 +70,6 @@ const EditAd = () => {
     if (picture) formData.append('picture', picture);
     // formData.append('user', user);
 
-    console.log('id: ', id);
-    console.log('formData: ', formData);
-
     mutate(formData, {
       onSuccess: () => navigate(`/ads/${id}`),
     });
