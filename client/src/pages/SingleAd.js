@@ -163,30 +163,20 @@ const SingleAd = () => {
                     </span>
                   </Card.Text>
 
-                  <Button
-                    as={Link}
-                    to='/ads'
-                    variant='outline-primary'
-                    className='mt-4'
-                  >
+                  <Button as={Link} to='/ads' variant='primary' className='m-1'>
                     Back to Ads
                   </Button>
 
                   <Button
                     as={Link}
-                    to='/ads'
-                    variant='outline-primary'
-                    className='mt-4'
+                    to={`/ads/edit/${id}`}
+                    variant='secondary'
+                    className='m-1'
                   >
                     LOG Edit Ad
                   </Button>
 
-                  <Button
-                    as={Link}
-                    to='/ads'
-                    variant='outline-primary'
-                    className='mt-4'
-                  >
+                  <Button as={Link} to='/ads' variant='danger' className='m-1'>
                     LOG Delete Ad
                   </Button>
                 </Card.Body>
