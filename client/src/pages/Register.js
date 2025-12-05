@@ -30,9 +30,16 @@ const Register = () => {
   useEffect(() => {
     if (user) {
       dispatch(setUser(user.data));
-      navigate('/ads');
+
+      if (!isLoadingMutate) {
+        navigate('/ads');
+      }
     }
   }, [user]);
+
+  useEffect(() => {
+    setIsErrorData(isErrorMutate);
+  }, [isErrorMutate]);
 
   const handleCancel = () => navigate('/');
 
@@ -82,9 +89,9 @@ const Register = () => {
   return (
     <Container className='py-5'>
       {isLoadingMutate && <FullPageSpinner show={isLoadingMutate} />}
-      {(isErrorMutate || isErrorData) && (
+      {isErrorData && (
         <ErrorModal
-          show={isErrorMutate || isErrorData}
+          show={isErrorData}
           title='Registration failed'
           message={errorMutate?.message || 'Unable to register'}
           shouldRedirect={false}
