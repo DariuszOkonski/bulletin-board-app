@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import PageTitle from '../components/PageTitle';
 import FullPageSpinner from '../components/FullPageSpinner';
 import ErrorModal from '../components/ErrorModal';
+import useRegisterUser from '../hooks/useRegisterUser';
 
 const Register = () => {
   const navigate = useNavigate();
@@ -12,6 +13,13 @@ const Register = () => {
   const [phone, setPhone] = useState('');
   const [location, setLocation] = useState('');
   const [avatar, setAvatar] = useState(null);
+
+  const {
+    mutate,
+    isLoading: isLoadingMutate,
+    isError: isErrorMutate,
+    error: errorMutate,
+  } = useRegisterUser();
 
   const handleCancel = () => navigate('/');
 
@@ -32,26 +40,25 @@ const Register = () => {
     if (!avatar) missing.push('avatar');
 
     if (missing.length) {
-      // setError({ message: `Missing required fields: ${missing.join(', ')}` });
-      return;
+      throw new Error(`Missing required fields: ${missing.join(', ')}`);
     }
+
+    mutate({ login, password, phone, location, avatar });
 
     navigate('/ads');
   };
 
-  // if(isLoading) {
+  if (isLoadingMutate) {
+    <FullPageSpinner show={isLoadingMutate} />;
+  }
 
-  //   <FullPageSpinner show={isLoading} />
-  // }
-
-  // if(isError) {
-  //         <ErrorModal
-  //       show={!!error}
-  //       title='Registration failed'
-  //       message={error?.message || 'Unable to register'}
-  //       onClose={() => setError(null)}
-  //     />
-  // }
+  if (isErrorMutate) {
+    <ErrorModal
+      show={isErrorMutate}
+      title='Registration failed'
+      message={errorMutate?.message || 'Unable to register'}
+    />;
+  }
 
   return (
     <Container className='py-5'>
