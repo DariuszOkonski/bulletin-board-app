@@ -6,11 +6,17 @@ const ErrorModal = ({
   show = false,
   title = 'Something went wrong',
   message = 'Query failed',
+  shouldRedirect = true,
+  setIsShown,
 }) => {
   const navigate = useNavigate();
 
   const handleClose = () => {
-    navigate('/');
+    if (shouldRedirect) {
+      navigate('/');
+    } else {
+      setIsShown(false);
+    }
   };
 
   return (

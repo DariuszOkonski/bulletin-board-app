@@ -15,6 +15,7 @@ const Register = () => {
   const [phone, setPhone] = useState('');
   const [location, setLocation] = useState('');
   const [avatar, setAvatar] = useState(null);
+  const [isErrorData, setIsErrorData] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -41,6 +42,7 @@ const Register = () => {
   };
 
   const handleSubmit = async (e) => {
+    setIsErrorData(false);
     e.preventDefault();
     // setError(null);
 
@@ -52,7 +54,10 @@ const Register = () => {
     if (!avatar) missing.push('avatar');
 
     if (missing.length) {
-      throw new Error(`Missing required fields: ${missing.join(', ')}`);
+      console.log('missing length: ', missing.length);
+      // throw new Error(`Missing required fields: ${missing.join(', ')}`);
+      setIsErrorData(true);
+      return;
     }
 
     mutate({ login, password, phone, location, avatar });
@@ -60,20 +65,33 @@ const Register = () => {
     // navigate('/ads');
   };
 
-  if (isLoadingMutate) {
-    <FullPageSpinner show={isLoadingMutate} />;
-  }
+  // if (isLoadingMutate) {
+  //   return <FullPageSpinner show={isLoadingMutate} />;
+  // }
 
-  if (isErrorMutate) {
-    <ErrorModal
-      show={isErrorMutate}
-      title='Registration failed'
-      message={errorMutate?.message || 'Unable to register'}
-    />;
-  }
+  // if (isErrorMutate || isErrorData) {
+  //   return (
+  //     <ErrorModal
+  //       show={isErrorMutate || isErrorData}
+  //       title='Registration failed'
+  //       message={errorMutate?.message || 'Unable to register'}
+  //     />
+  //   );
+  // }
 
   return (
     <Container className='py-5'>
+      {isLoadingMutate && <FullPageSpinner show={isLoadingMutate} />}
+      {(isErrorMutate || isErrorData) && (
+        <ErrorModal
+          show={isErrorMutate || isErrorData}
+          title='Registration failed'
+          message={errorMutate?.message || 'Unable to register'}
+          shouldRedirect={false}
+          setIsShown={setIsErrorData}
+        />
+      )}
+
       <Row className='justify-content-center'>
         <Col md={6}>
           <PageTitle title='Sign Up' />
