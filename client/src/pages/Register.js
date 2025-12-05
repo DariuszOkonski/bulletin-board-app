@@ -54,7 +54,7 @@ const Register = () => {
     if (!avatar) missing.push('avatar');
 
     if (missing.length) {
-      console.log('missing length: ', missing.length);
+      // console.log('missing length: ', missing.length);
       // throw new Error(`Missing required fields: ${missing.join(', ')}`);
       setIsErrorData(true);
       return;
