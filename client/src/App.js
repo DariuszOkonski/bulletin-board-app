@@ -12,30 +12,34 @@ import CreateAd from './pages/CreateAd';
 import EditAd from './pages/EditAd';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import store from './store/store';
+import { Provider } from 'react-redux';
 
 function App() {
   const queryClient = new QueryClient();
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <Navigation />
+    <Provider store={store}>
+      <QueryClientProvider client={queryClient}>
+        <BrowserRouter>
+          <Navigation />
 
-        <Container>
-          <Routes>
-            <Route path='/' element={<Home />} />
-            <Route path='/ads' element={<Ads />} />
-            <Route path='/ads/new' element={<CreateAd />} />
-            <Route path='/ads/:id' element={<SingleAd />} />
-            <Route path='/ads/edit/:id' element={<EditAd />} />
-            <Route path='/about' element={<About />} />
-            <Route path='/login' element={<Login />} />
-            <Route path='/register' element={<Register />} />
-            <Route path='*' element={<ErrorPage />} />
-          </Routes>
-        </Container>
-      </BrowserRouter>
-    </QueryClientProvider>
+          <Container>
+            <Routes>
+              <Route path='/' element={<Home />} />
+              <Route path='/ads' element={<Ads />} />
+              <Route path='/ads/new' element={<CreateAd />} />
+              <Route path='/ads/:id' element={<SingleAd />} />
+              <Route path='/ads/edit/:id' element={<EditAd />} />
+              <Route path='/about' element={<About />} />
+              <Route path='/login' element={<Login />} />
+              <Route path='/register' element={<Register />} />
+              <Route path='*' element={<ErrorPage />} />
+            </Routes>
+          </Container>
+        </BrowserRouter>
+      </QueryClientProvider>
+    </Provider>
   );
 }
 
