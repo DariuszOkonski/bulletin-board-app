@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import PageTitle from '../components/PageTitle';
 import FullPageSpinner from '../components/FullPageSpinner';
 import ErrorModal from '../components/ErrorModal';
 import useRegisterUser from '../hooks/useRegisterUser';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../store/slices/authSlice';
 
 const Register = () => {
   const navigate = useNavigate();
@@ -14,12 +16,22 @@ const Register = () => {
   const [location, setLocation] = useState('');
   const [avatar, setAvatar] = useState(null);
 
+  const dispatch = useDispatch();
+
   const {
+    data: user,
     mutate,
     isLoading: isLoadingMutate,
     isError: isErrorMutate,
     error: errorMutate,
   } = useRegisterUser();
+
+  useEffect(() => {
+    if (user) {
+      dispatch(setUser(user.data));
+      navigate('/ads');
+    }
+  }, [user]);
 
   const handleCancel = () => navigate('/');
 
@@ -45,7 +57,7 @@ const Register = () => {
 
     mutate({ login, password, phone, location, avatar });
 
-    navigate('/ads');
+    // navigate('/ads');
   };
 
   if (isLoadingMutate) {
