@@ -6,6 +6,8 @@ import ErrorModal from '../components/ErrorModal';
 import PageTitle from '../components/PageTitle';
 import useLogin from '../hooks/useLogin';
 import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../store/slices/authSlice';
 
 // const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000/api/v1';
 
@@ -15,6 +17,8 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [isErrorData, setIsErrorData] = useState(false);
 
+  const dispatch = useDispatch();
+
   const { data, mutate, isLoading, isError, error } = useLogin();
   const handleCancel = () => navigate('/');
 
@@ -23,7 +27,10 @@ const Login = () => {
   }, [isError]);
 
   useEffect(() => {
-    console.log('!!! data: ', data);
+    if (data?.success) {
+      dispatch(setUser({ login }));
+      navigate('/ads');
+    }
   }, [data]);
 
   const handleSubmit = async (e) => {
