@@ -5,6 +5,8 @@ import FullPageSpinner from '../components/FullPageSpinner';
 import ErrorModal from '../components/ErrorModal';
 import PageTitle from '../components/PageTitle';
 import useCreateAd from '../hooks/useCreateAd';
+import { useEffect } from 'react';
+import useGetSession from '../hooks/useGetSession';
 
 const CreateAd = () => {
   const navigate = useNavigate();
@@ -12,8 +14,21 @@ const CreateAd = () => {
   const [content, setContent] = useState('');
   const [price, setPrice] = useState('');
   const [picture, setPicture] = useState(null);
+  const [user, setUser] = useState('');
+  const [isErrorData, setIsErrorData] = useState(false);
 
   const { mutate, isLoading, isError, error } = useCreateAd();
+  const { data: userData } = useGetSession();
+
+  useEffect(() => {
+    setIsErrorData(isError);
+  }, [isError]);
+
+  useEffect(() => {
+    if (userData) {
+      setUser(userData.data.id);
+    }
+  }, [userData]);
 
   const onFileChange = (e) => {
     setPicture(e.target.files && e.target.files[0] ? e.target.files[0] : null);
@@ -29,15 +44,13 @@ const CreateAd = () => {
   };
 
   const handleSubmit = async (e) => {
+    setIsErrorData(false);
     e.preventDefault();
     const missing = validate();
     if (missing.length) {
-      alert({ message: `Missing or invalid fields: ${missing.join(', ')}` });
+      setIsErrorData(true);
       return;
     }
-
-    // TODO: get user when logged in
-    const user = '69255294c692c3429e6cda2d';
 
     const formData = new FormData();
     formData.append('title', title);
@@ -51,22 +64,18 @@ const CreateAd = () => {
     });
   };
 
-  if (isLoading) {
-    return <FullPageSpinner show />;
-  }
-
-  if (isError) {
-    return (
-      <ErrorModal
-        show={isError}
-        title='Failed to create ad'
-        message={error?.message || 'Unknown error'}
-      />
-    );
-  }
-
   return (
     <Container className='py-4'>
+      {isLoading && <FullPageSpinner show />}
+      {isErrorData && (
+        <ErrorModal
+          show={isErrorData}
+          title='Failed to create ad'
+          message={error?.message || 'Unknown error'}
+          shouldRedirect={false}
+          setIsShown={setIsErrorData}
+        />
+      )}
       <Row className='mb-4'>
         <Col>
           <PageTitle title='Create Advertisement' />

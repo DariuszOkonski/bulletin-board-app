@@ -35,6 +35,7 @@ const Navigation = () => {
               as={NavLink}
               to='/ads'
               className={({ isActive }) => (isActive ? 'fw-bold' : '')}
+              end
             >
               Ads
             </Nav.Link>
