@@ -29,7 +29,7 @@ const Register = () => {
 
   useEffect(() => {
     if (user) {
-      dispatch(setUser(user.data));
+      // dispatch(setUser(user.data));
 
       if (!isLoadingMutate) {
         navigate('/ads');

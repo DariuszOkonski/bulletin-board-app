@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import FullPageSpinner from '../components/FullPageSpinner';
 import ErrorModal from '../components/ErrorModal';
 import PageTitle from '../components/PageTitle';
+import useLogin from '../hooks/useLogin';
+import { useEffect } from 'react';
 
 // const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000/api/v1';
 
@@ -11,19 +13,32 @@ const Login = () => {
   const navigate = useNavigate();
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
+  const [isErrorData, setIsErrorData] = useState(false);
 
+  const { data, mutate, isLoading, isError, error } = useLogin();
   const handleCancel = () => navigate('/');
 
+  useEffect(() => {
+    setIsErrorData(isError);
+  }, [isError]);
+
+  useEffect(() => {
+    console.log('!!! data: ', data);
+  }, [data]);
+
   const handleSubmit = async (e) => {
+    setIsErrorData(false);
     e.preventDefault();
     // setError(null);
 
     if (!login.trim() || !password) {
-      // setError({ message: 'Both login and password are required.' });
+      setIsErrorData(true);
       return;
     }
 
-    navigate('/ads');
+    mutate({ login, password });
+
+    // navigate('/ads');
   };
 
   // if(isLoading) {
@@ -42,6 +57,16 @@ const Login = () => {
 
   return (
     <Container className='py-5'>
+      {isLoading && <FullPageSpinner show={isLoading} />}
+      {isErrorData && (
+        <ErrorModal
+          show={isErrorData}
+          title='Login failed'
+          message={error?.message || 'Unable to login'}
+          setIsShown={setIsErrorData}
+          shouldRedirect={false}
+        />
+      )}
       <Row className='justify-content-center'>
         <Col md={6}>
           <PageTitle title='Sign In' />
