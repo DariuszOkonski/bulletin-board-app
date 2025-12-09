@@ -6,9 +6,11 @@ import FullPageSpinner from '../components/FullPageSpinner';
 import ErrorModal from '../components/ErrorModal';
 import PageTitle from '../components/PageTitle';
 import useDeleteAd from '../hooks/useDeleteAd';
+import { useSelector } from 'react-redux';
 
 const SingleAd = () => {
   const { id } = useParams();
+  const isLogged = useSelector((state) => state.isAuthenticated);
   const {
     data: ad,
     isLoading: isLoadingQuery,
@@ -193,22 +195,26 @@ const SingleAd = () => {
                     Back to Ads
                   </Button>
 
-                  <Button
-                    as={Link}
-                    to={`/ads/edit/${id}`}
-                    variant='secondary'
-                    className='m-1'
-                  >
-                    LOG Edit Ad
-                  </Button>
+                  {isLogged && (
+                    <>
+                      <Button
+                        as={Link}
+                        to={`/ads/edit/${id}`}
+                        variant='secondary'
+                        className='m-1'
+                      >
+                        Edit Ad
+                      </Button>
 
-                  <Button
-                    variant='danger'
-                    className='m-1'
-                    onClick={handleDelete}
-                  >
-                    LOG Delete Ad
-                  </Button>
+                      <Button
+                        variant='danger'
+                        className='m-1'
+                        onClick={handleDelete}
+                      >
+                        Delete Ad
+                      </Button>
+                    </>
+                  )}
                 </Card.Body>
               </Col>
             </Row>

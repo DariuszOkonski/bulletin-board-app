@@ -1,7 +1,10 @@
 import { Button, Col, Row } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 const Home = () => {
+  const isLogged = useSelector((state) => state.isAuthenticated);
+
   return (
     <div>
       <Row className='mb-4'>
@@ -19,9 +22,11 @@ const Home = () => {
           <Button as={Link} to='/ads' variant='primary' className='me-2'>
             Browse Ads
           </Button>
-          <Button as={Link} to='/ads/new' variant='secondary'>
-            LOG Create Ad
-          </Button>
+          {isLogged && (
+            <Button as={Link} to='/ads/new' variant='secondary'>
+              Create Ad
+            </Button>
+          )}
         </Col>
       </Row>
     </div>
