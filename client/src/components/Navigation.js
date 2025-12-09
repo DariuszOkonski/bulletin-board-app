@@ -1,10 +1,18 @@
 import React from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { Navbar, Nav, Container } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { clearUser } from '../store/slices/authSlice';
 
 const Navigation = () => {
   const isLogged = useSelector((state) => state.isAuthenticated);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    dispatch(clearUser());
+    navigate('/');
+  };
 
   return (
     <Navbar bg='primary' variant='dark' expand='lg' className='mb-3'>
@@ -76,9 +84,9 @@ const Navigation = () => {
 
             {isLogged && (
               <Nav.Link
-                as={NavLink}
-                to='/logout'
-                className={({ isActive }) => (isActive ? 'fw-bold' : '')}
+                onClick={handleLogout}
+                style={{ cursor: 'pointer' }}
+                className='fw-bold'
               >
                 Sign out
               </Nav.Link>
