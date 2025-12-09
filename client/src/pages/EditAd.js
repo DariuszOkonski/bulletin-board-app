@@ -6,6 +6,7 @@ import FullPageSpinner from '../components/FullPageSpinner';
 import PageTitle from '../components/PageTitle';
 import useGetAdById from '../hooks/useGetAdById';
 import useEditAd from '../hooks/useEditAd';
+import useGetSession from '../hooks/useGetSession';
 
 const EditAd = () => {
   const navigate = useNavigate();
@@ -13,8 +14,12 @@ const EditAd = () => {
   const [content, setContent] = useState('');
   const [price, setPrice] = useState('');
   const [picture, setPicture] = useState(null);
+  const [user, setUser] = useState('');
+  const [isErrorData, setIsErrorData] = useState(false);
 
   const { id } = useParams();
+  const { data: userData } = useGetSession();
+
   const {
     data: ad,
     isLoading: isLoadingQuery,
@@ -39,6 +44,16 @@ const EditAd = () => {
     }
   }, [ad]);
 
+  useEffect(() => {
+    setIsErrorData(isErrorQuery || isErrorMutate);
+  }, [isErrorMutate, isErrorQuery]);
+
+  useEffect(() => {
+    if (userData) {
+      setUser(userData.data.id);
+    }
+  }, [userData]);
+
   const onFileChange = (e) => {
     setPicture(e.target.files && e.target.files[0] ? e.target.files[0] : null);
   };
@@ -53,50 +68,36 @@ const EditAd = () => {
   };
 
   const handleSubmit = async (e) => {
+    setIsErrorData(false);
     e.preventDefault();
     const missing = validate();
     if (missing.length) {
-      alert({ message: `Missing or invalid fields: ${missing.join(', ')}` });
+      setIsErrorData(true);
       return;
     }
-
-    // TODO: get user when logged in
-    // const user = '69255294c692c3429e6cda2d';
 
     const formData = new FormData();
     formData.append('title', title);
     formData.append('content', content);
     formData.append('price', Number(price));
     if (picture) formData.append('picture', picture);
-    // formData.append('user', user);
+    formData.append('user', user);
 
     mutate(formData, {
       onSuccess: () => navigate(`/ads/${id}`),
     });
   };
 
-  if (isLoadingQuery || isLoadingMutate) {
-    return <FullPageSpinner show />;
-  }
-
-  if (isErrorQuery || isErrorMutate) {
-    const title = isErrorQuery
-      ? 'Failed to create ad'
-      : isErrorMutate
-      ? 'Failed to update ad'
-      : 'Failed to carry on with request';
-
-    return (
-      <ErrorModal
-        show={isErrorQuery || isErrorMutate}
-        title={title}
-        message={errorQuery.message || errorMutate.message || 'Unknown error'}
-      />
-    );
-  }
-
   return (
     <Container className='py-4'>
+      {(isLoadingMutate || isLoadingQuery) && <FullPageSpinner show />}
+      {isErrorData && (
+        <ErrorModal
+          show={isErrorData}
+          title={title}
+          message={errorQuery.message || errorMutate.message || 'Unknown error'}
+        />
+      )}
       <Row className='mb-4'>
         <Col>
           <PageTitle title='Edit Advertisement' />
