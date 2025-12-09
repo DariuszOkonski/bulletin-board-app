@@ -8,6 +8,8 @@ const path = require('path');
 const MAX_FILESIZE = 500 * 1024 * 4;
 
 const getAll = async (req, res) => {
+  console.log('req: ', req);
+
   try {
     const ads = await Ad.find().populate({
       path: 'user',

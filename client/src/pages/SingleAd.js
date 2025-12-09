@@ -7,10 +7,16 @@ import ErrorModal from '../components/ErrorModal';
 import PageTitle from '../components/PageTitle';
 import useDeleteAd from '../hooks/useDeleteAd';
 import { useSelector } from 'react-redux';
+import useGetSession from '../hooks/useGetSession';
+import { useState } from 'react';
+import { useEffect } from 'react';
 
 const SingleAd = () => {
+  const [isLogged, setIsLogged] = useState(false);
   const { id } = useParams();
-  const isLogged = useSelector((state) => state.isAuthenticated);
+  const { data: sessionData } = useGetSession();
+  const isLoggedOnStore = useSelector((state) => state.isAuthenticated);
+
   const {
     data: ad,
     isLoading: isLoadingQuery,
@@ -25,6 +31,16 @@ const SingleAd = () => {
     error: errorMutate,
   } = useDeleteAd(id);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (ad && sessionData && isLoggedOnStore) {
+      console.log('ad: ', ad.data.user.id);
+      console.log('sessionData: ', sessionData);
+      console.log('isLoggedOnStore: ', isLoggedOnStore);
+
+      setIsLogged(isLoggedOnStore && ad.data.user.id === sessionData.data.id);
+    }
+  }, [ad]);
 
   if (isLoadingQuery || isLoadingMutate) {
     return <FullPageSpinner show />;
