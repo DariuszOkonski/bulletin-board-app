@@ -5,7 +5,7 @@ import PageTitle from '../components/PageTitle';
 import FullPageSpinner from '../components/FullPageSpinner';
 import ErrorModal from '../components/ErrorModal';
 import useRegisterUser from '../hooks/useRegisterUser';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from '../store/slices/authSlice';
 
 const Register = () => {
@@ -18,6 +18,7 @@ const Register = () => {
   const [isErrorData, setIsErrorData] = useState(false);
 
   const dispatch = useDispatch();
+  const isLogged = useSelector((state) => state.isAuthenticated);
 
   const {
     data: user,
@@ -83,6 +84,10 @@ const Register = () => {
   //     />
   //   );
   // }
+
+  if (isLogged) {
+    navigate('/');
+  }
 
   return (
     <Container className='py-5'>

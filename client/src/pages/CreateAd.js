@@ -7,6 +7,7 @@ import PageTitle from '../components/PageTitle';
 import useCreateAd from '../hooks/useCreateAd';
 import { useEffect } from 'react';
 import useGetSession from '../hooks/useGetSession';
+import { useSelector } from 'react-redux';
 
 const CreateAd = () => {
   const navigate = useNavigate();
@@ -16,6 +17,8 @@ const CreateAd = () => {
   const [picture, setPicture] = useState(null);
   const [user, setUser] = useState('');
   const [isErrorData, setIsErrorData] = useState(false);
+
+  const isLogged = useSelector((state) => state.isAuthenticated);
 
   const { mutate, isLoading, isError, error } = useCreateAd();
   const { data: userData } = useGetSession();
@@ -63,6 +66,10 @@ const CreateAd = () => {
       onSuccess: () => navigate('/ads'),
     });
   };
+
+  if (!isLogged) {
+    navigate('/');
+  }
 
   return (
     <Container className='py-4'>

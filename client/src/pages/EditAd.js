@@ -7,6 +7,7 @@ import PageTitle from '../components/PageTitle';
 import useGetAdById from '../hooks/useGetAdById';
 import useEditAd from '../hooks/useEditAd';
 import useGetSession from '../hooks/useGetSession';
+import { useSelector } from 'react-redux';
 
 const EditAd = () => {
   const navigate = useNavigate();
@@ -19,6 +20,8 @@ const EditAd = () => {
 
   const { id } = useParams();
   const { data: userData } = useGetSession();
+
+  const isLogged = useSelector((state) => state.isAuthenticated);
 
   const {
     data: ad,
@@ -87,6 +90,10 @@ const EditAd = () => {
       onSuccess: () => navigate(`/ads/${id}`),
     });
   };
+
+  if (!isLogged) {
+    navigate('/');
+  }
 
   return (
     <Container className='py-4'>
