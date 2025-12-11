@@ -15,7 +15,7 @@ const SingleAd = () => {
   const [isLogged, setIsLogged] = useState(false);
   const { id } = useParams();
   const { data: sessionData } = useGetSession();
-  const isLoggedOnStore = useSelector((state) => state.isAuthenticated);
+  const isUserInStore = useSelector((state) => state.user);
 
   const {
     data: ad,
@@ -33,14 +33,10 @@ const SingleAd = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (ad && sessionData && isLoggedOnStore) {
-      console.log('ad: ', ad.data.user.id);
-      console.log('sessionData: ', sessionData);
-      console.log('isLoggedOnStore: ', isLoggedOnStore);
-
-      setIsLogged(isLoggedOnStore && ad.data.user.id === sessionData.data.id);
+    if (ad && sessionData && isUserInStore) {
+      setIsLogged(ad.data.user.id === isUserInStore.data.data.user.id);
     }
-  }, [ad]);
+  }, [ad, sessionData, isUserInStore]);
 
   if (isLoadingQuery || isLoadingMutate) {
     return <FullPageSpinner show />;

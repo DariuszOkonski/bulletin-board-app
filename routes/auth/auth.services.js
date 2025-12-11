@@ -144,6 +144,7 @@ const login = async (req, res) => {
       success: true,
       data: {
         message: 'User logged in',
+        user,
       },
     });
   } catch (error) {

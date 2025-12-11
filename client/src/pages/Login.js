@@ -28,7 +28,7 @@ const Login = () => {
 
   useEffect(() => {
     if (data?.success) {
-      dispatch(setUser({ login }));
+      dispatch(setUser({ data }));
       navigate('/ads');
     }
   }, [data]);
