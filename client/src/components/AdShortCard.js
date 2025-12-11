@@ -1,23 +1,17 @@
 import React from 'react';
 import { Card, Button, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { IMGS_URL } from '../utils/constants';
 
 const AdShortCard = ({ id, title, picture, location, author }) => {
-  // TODO: fix src later on
-  const src = picture
-    ? picture.startsWith('http')
-      ? picture
-      : `/uploads/${picture}`
-    : null;
-
   return (
     <Card className='w-100 mb-3'>
       <Card.Body>
         <Row className='align-items-center'>
           <Col xs={12} md={4} lg={4} className='mb-2 mb-md-0'>
-            {src ? (
+            {picture ? (
               <img
-                src={src}
+                src={IMGS_URL + picture}
                 alt={title}
                 className='img-fluid rounded'
                 style={{ width: '100%', height: '140px', objectFit: 'cover' }}

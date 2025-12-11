@@ -10,6 +10,7 @@ import { useSelector } from 'react-redux';
 import useGetSession from '../hooks/useGetSession';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import { IMGS_URL } from '../utils/constants';
 
 const SingleAd = () => {
   const [isLogged, setIsLogged] = useState(false);
@@ -68,16 +69,20 @@ const SingleAd = () => {
 
   const adData = ad.data || ad;
   const user = adData.user || {};
-  const userAvatar = user.avatar
-    ? user.avatar.startsWith('http')
-      ? user.avatar
-      : `/uploads/${user.avatar}`
-    : null;
-  const adPicture = adData.picture
-    ? adData.picture.startsWith('http')
-      ? adData.picture
-      : `/uploads/${adData.picture}`
-    : null;
+  // const userAvatar = user.avatar
+  //   ? user.avatar.startsWith('http')
+  //     ? user.avatar
+  //     : `/uploads/${user.avatar}`
+  //   : null;
+  // const adPicture = adData.picture
+  //   ? adData.picture.startsWith('http')
+  //     ? adData.picture
+  //     : `/uploads/${adData.picture}`
+  //   : null;
+
+  // console.log('addData.picture: ', adData.picture);
+
+  console.log('adData: ', adData.user.avatar);
 
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('en-US', {
@@ -110,9 +115,9 @@ const SingleAd = () => {
           <Card className='w-100'>
             <Row className='g-0'>
               <Col md={6}>
-                {adPicture ? (
+                {adData.picture ? (
                   <Card.Img
-                    src={adPicture}
+                    src={IMGS_URL + adData.picture}
                     alt={adData.title}
                     style={{
                       width: '100%',
@@ -160,9 +165,9 @@ const SingleAd = () => {
                     <h5 className='mb-3'>Seller Information</h5>
                     <Row className='align-items-center'>
                       <Col xs='auto'>
-                        {userAvatar ? (
+                        {adData.user.avatar ? (
                           <img
-                            src={userAvatar}
+                            src={IMGS_URL + adData.user.avatar}
                             alt={user.login}
                             className='rounded-circle'
                             style={{
