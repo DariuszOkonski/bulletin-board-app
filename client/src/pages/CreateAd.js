@@ -21,17 +21,18 @@ const CreateAd = () => {
   const isLogged = useSelector((state) => state.isAuthenticated);
 
   const { mutate, isLoading, isError, error } = useCreateAd();
-  const { data: userData } = useGetSession();
+  // const { data: userData } = useGetSession();
+  const loggedUserId = useSelector((state) => state.user);
 
   useEffect(() => {
     setIsErrorData(isError);
   }, [isError]);
 
   useEffect(() => {
-    if (userData) {
-      setUser(userData.data.id);
+    if (loggedUserId) {
+      setUser(loggedUserId.data.data.user.id);
     }
-  }, [userData]);
+  }, [loggedUserId]);
 
   const onFileChange = (e) => {
     setPicture(e.target.files && e.target.files[0] ? e.target.files[0] : null);
