@@ -1,13 +1,11 @@
-import React, { use, useState } from 'react';
-import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+import { useEffect, useState } from 'react';
+import { Button, Col, Container, Form, Row } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import FullPageSpinner from '../components/FullPageSpinner';
 import ErrorModal from '../components/ErrorModal';
+import FullPageSpinner from '../components/FullPageSpinner';
 import PageTitle from '../components/PageTitle';
 import useCreateAd from '../hooks/useCreateAd';
-import { useEffect } from 'react';
-import useGetSession from '../hooks/useGetSession';
-import { useSelector } from 'react-redux';
 
 const CreateAd = () => {
   const navigate = useNavigate();
@@ -21,7 +19,6 @@ const CreateAd = () => {
   const isLogged = useSelector((state) => state.isAuthenticated);
 
   const { mutate, isLoading, isError, error } = useCreateAd();
-  // const { data: userData } = useGetSession();
   const loggedUserId = useSelector((state) => state.user);
 
   useEffect(() => {

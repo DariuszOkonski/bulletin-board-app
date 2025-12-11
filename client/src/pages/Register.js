@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+import { useEffect, useState } from 'react';
+import { Button, Col, Container, Form, Row } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import PageTitle from '../components/PageTitle';
-import FullPageSpinner from '../components/FullPageSpinner';
 import ErrorModal from '../components/ErrorModal';
+import FullPageSpinner from '../components/FullPageSpinner';
+import PageTitle from '../components/PageTitle';
 import useRegisterUser from '../hooks/useRegisterUser';
-import { useDispatch, useSelector } from 'react-redux';
-import { setUser } from '../store/slices/authSlice';
 
 const Register = () => {
   const navigate = useNavigate();
@@ -17,7 +16,6 @@ const Register = () => {
   const [avatar, setAvatar] = useState(null);
   const [isErrorData, setIsErrorData] = useState(false);
 
-  const dispatch = useDispatch();
   const isLogged = useSelector((state) => state.isAuthenticated);
 
   const {
@@ -30,8 +28,6 @@ const Register = () => {
 
   useEffect(() => {
     if (user) {
-      // dispatch(setUser(user.data));
-
       if (!isLoadingMutate) {
         navigate('/ads');
       }
@@ -52,7 +48,6 @@ const Register = () => {
   const handleSubmit = async (e) => {
     setIsErrorData(false);
     e.preventDefault();
-    // setError(null);
 
     const missing = [];
     if (!login.trim()) missing.push('login');
@@ -67,23 +62,7 @@ const Register = () => {
     }
 
     mutate({ login, password, phone, location, avatar });
-
-    // navigate('/ads');
   };
-
-  // if (isLoadingMutate) {
-  //   return <FullPageSpinner show={isLoadingMutate} />;
-  // }
-
-  // if (isErrorMutate || isErrorData) {
-  //   return (
-  //     <ErrorModal
-  //       show={isErrorMutate || isErrorData}
-  //       title='Registration failed'
-  //       message={errorMutate?.message || 'Unable to register'}
-  //     />
-  //   );
-  // }
 
   if (isLogged) {
     navigate('/');

@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import ErrorModal from '../components/ErrorModal';
 import FullPageSpinner from '../components/FullPageSpinner';
 import PageTitle from '../components/PageTitle';
-import useGetAdById from '../hooks/useGetAdById';
 import useEditAd from '../hooks/useEditAd';
+import useGetAdById from '../hooks/useGetAdById';
 import useGetSession from '../hooks/useGetSession';
-import { useSelector } from 'react-redux';
 
 const EditAd = () => {
   const navigate = useNavigate();
@@ -41,9 +41,6 @@ const EditAd = () => {
       setTitle(ad.data.title);
       setContent(ad.data.content);
       setPrice(ad.data.price);
-
-      // TODO: fix issue with setting picture
-      // setPicture(ad.data.picture);
     }
   }, [ad]);
 

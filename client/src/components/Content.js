@@ -1,16 +1,15 @@
 import { Container } from 'react-bootstrap';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
-import Navigation from './Navigation';
-import Home from '../pages/Home';
-import Ads from '../pages/Ads';
-import ErrorPage from '../pages/ErrorPage';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import About from '../pages/About';
-import SingleAd from '../pages/SingleAd';
+import Ads from '../pages/Ads';
 import CreateAd from '../pages/CreateAd';
 import EditAd from '../pages/EditAd';
+import ErrorPage from '../pages/ErrorPage';
+import Home from '../pages/Home';
 import Login from '../pages/Login';
 import Register from '../pages/Register';
+import SingleAd from '../pages/SingleAd';
+import Navigation from './Navigation';
 
 function Content() {
   return (

@@ -23,7 +23,6 @@ export const useEditAd = (id) => {
   return useMutation({
     mutationFn: (formData) => updateAd({ id, formData }),
     onSuccess: () => {
-      // Invalidate specific ad and ads list
       queryClient.invalidateQueries({ queryKey: ['ads', id] });
       queryClient.invalidateQueries({ queryKey: ['ads'] });
     },

@@ -1,5 +1,4 @@
-import React from 'react';
-import { Card, Button, Row, Col } from 'react-bootstrap';
+import { Button, Card, Col, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { IMGS_URL } from '../utils/constants';
 

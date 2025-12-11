@@ -13,7 +13,6 @@ const deleteAd = async (id) => {
     throw new Error(txt || `Failed to delete ad: ${res.status}`);
   }
 
-  // server may return JSON or empty body
   try {
     return await res.json();
   } catch {
@@ -27,7 +26,6 @@ export const useDeleteAd = (id) => {
   return useMutation({
     mutationFn: () => deleteAd(id),
     onSuccess: () => {
-      // invalidate list and specific ad cache
       queryClient.invalidateQueries({ queryKey: ['ads'] });
       queryClient.invalidateQueries({ queryKey: ['ads', id] });
     },

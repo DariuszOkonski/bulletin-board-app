@@ -1,15 +1,12 @@
-import React, { useState } from 'react';
-import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+import { useEffect, useState } from 'react';
+import { Button, Col, Container, Form, Row } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import FullPageSpinner from '../components/FullPageSpinner';
 import ErrorModal from '../components/ErrorModal';
+import FullPageSpinner from '../components/FullPageSpinner';
 import PageTitle from '../components/PageTitle';
 import useLogin from '../hooks/useLogin';
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from '../store/slices/authSlice';
-
-// const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000/api/v1';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -37,7 +34,6 @@ const Login = () => {
   const handleSubmit = async (e) => {
     setIsErrorData(false);
     e.preventDefault();
-    // setError(null);
 
     if (!login.trim() || !password) {
       setIsErrorData(true);
@@ -45,23 +41,7 @@ const Login = () => {
     }
 
     mutate({ login, password });
-
-    // navigate('/ads');
   };
-
-  // if(isLoading) {
-  //   return <FullPageSpinner show={isLoading} />
-  // }
-
-  // if(isError) {
-  // return;
-  // <ErrorModal
-  //   show={!!error}
-  //   title='Login failed'
-  //   message={error?.message || 'Unable to login'}
-  //   onClose={() => setError(null)}
-  // />
-  // }
 
   if (isLogged) {
     navigate('/');

@@ -23,7 +23,6 @@ export const useCreateAd = () => {
   return useMutation({
     mutationFn: createAd,
     onSuccess: (data) => {
-      // Invalidate and refetch ads list
       queryClient.invalidateQueries({ queryKey: ['ads'] });
     },
     onError: (error) => {

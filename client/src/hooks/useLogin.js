@@ -33,7 +33,6 @@ export const useLogin = (options = {}) => {
   return useMutation({
     mutationFn: loginUser,
     onSuccess: (data) => {
-      // Invalidate auth-related queries
       queryClient.invalidateQueries({ queryKey: ['auth'] });
       if (options.onSuccess) options.onSuccess(data);
     },

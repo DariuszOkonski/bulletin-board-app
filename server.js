@@ -11,7 +11,7 @@ const AuthRoutes = require('./routes/auth/auth.routes');
 
 const app = express();
 
-// // Middleware
+// Middleware
 app.use(
   cors({
     origin: process.env.CLIENT_URL || 'http://localhost:3000',

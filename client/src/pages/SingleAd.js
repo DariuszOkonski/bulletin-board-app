@@ -1,15 +1,13 @@
-import React from 'react';
-import { Container, Row, Col, Card, Button } from 'react-bootstrap';
-import { useParams, Link, useNavigate } from 'react-router-dom';
-import useGetAdById from '../hooks/useGetAdById';
-import FullPageSpinner from '../components/FullPageSpinner';
+import { useEffect, useState } from 'react';
+import { Button, Card, Col, Container, Row } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import ErrorModal from '../components/ErrorModal';
+import FullPageSpinner from '../components/FullPageSpinner';
 import PageTitle from '../components/PageTitle';
 import useDeleteAd from '../hooks/useDeleteAd';
-import { useSelector } from 'react-redux';
+import useGetAdById from '../hooks/useGetAdById';
 import useGetSession from '../hooks/useGetSession';
-import { useState } from 'react';
-import { useEffect } from 'react';
 import { IMGS_URL } from '../utils/constants';
 
 const SingleAd = () => {
@@ -69,20 +67,6 @@ const SingleAd = () => {
 
   const adData = ad.data || ad;
   const user = adData.user || {};
-  // const userAvatar = user.avatar
-  //   ? user.avatar.startsWith('http')
-  //     ? user.avatar
-  //     : `/uploads/${user.avatar}`
-  //   : null;
-  // const adPicture = adData.picture
-  //   ? adData.picture.startsWith('http')
-  //     ? adData.picture
-  //     : `/uploads/${adData.picture}`
-  //   : null;
-
-  // console.log('addData.picture: ', adData.picture);
-
-  console.log('adData: ', adData.user.avatar);
 
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('en-US', {

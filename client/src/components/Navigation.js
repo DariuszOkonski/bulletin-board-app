@@ -1,7 +1,6 @@
-import React from 'react';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
-import { Navbar, Nav, Container } from 'react-bootstrap';
+import { Container, Nav, Navbar } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { clearUser } from '../store/slices/authSlice';
 
 const Navigation = () => {

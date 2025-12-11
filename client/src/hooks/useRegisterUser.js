@@ -17,7 +17,6 @@ const registerUser = async ({ login, password, phone, location, avatar }) => {
   });
 
   if (!res.ok) {
-    // try to parse json error body, fallback to text/status
     let message = `Failed to register (status ${res.status})`;
     try {
       const json = await res.json();
@@ -40,7 +39,6 @@ export const useRegisterUser = (options = {}) => {
   return useMutation({
     mutationFn: registerUser,
     onSuccess: (data) => {
-      // Invalidate or refetch any queries that depend on users/auth state
       queryClient.invalidateQueries({ queryKey: ['users'] });
       queryClient.invalidateQueries({ queryKey: ['auth'] });
       if (options.onSuccess) options.onSuccess(data);
